@@ -20,12 +20,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dip"
-        android:text="@string/description"/>
+        android:text="@string/cost"/>
 
     <EditText
-        android:id="@+id/etDescription"
+        android:id="@+id/etCost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,17 +39,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/btAddCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add new category"
+        android:textSize="10sp"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dip"
-        android:text="@string/estimated_price"/>
+        android:text="@string/description"/>
 
     <EditText
-        android:id="@+id/etEstimatedPrice"
+        android:id="@+id/etDescription"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ToggleButton
+        android:id="@+id/tbExpenseToggle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"/>
+        android:textOff="Expense"
+        android:textOn="Income"/>
 
 <!--    <CheckBox-->
 <!--        android:id="@+id/cbAlreadyPurchased"-->

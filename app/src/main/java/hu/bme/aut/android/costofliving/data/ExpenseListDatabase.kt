@@ -1,4 +1,4 @@
-package hu.bme.aut.android.expenselist.data
+package hu.bme.aut.android.costofliving.data
 
 import android.content.Context
 import androidx.room.Database

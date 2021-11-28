@@ -1,6 +1,7 @@
-package hu.bme.aut.android.expenselist.data
+package hu.bme.aut.android.costofliving.data
 
 import androidx.room.*
+import hu.bme.aut.android.costofliving.data.ExpenseItem
 
 @Dao
 interface ExpenseItemDao {

@@ -7,7 +7,9 @@
     android:paddingBottom="8dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="8dp">
+    android:paddingTop="8dp"
+    android:background="@color/red"
+    android:id="@+id/linLayItemExpenseList">
 
 <!--    <CheckBox-->
 <!--        android:id="@+id/cbIsBought"-->
@@ -34,7 +36,31 @@
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="20sp"
             tools:text="Apple" />
+
+        <TextView
+            android:id="@+id/tvCost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="20 Ft" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            tools:text="Food" />
 
         <TextView
             android:id="@+id/tvDescription"
@@ -42,17 +68,6 @@
             android:layout_height="wrap_content"
             tools:text="My favorite fruit" />
 
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Food" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="20 Ft" />
     </LinearLayout>
 
     <ImageButton

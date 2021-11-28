@@ -1,11 +1,14 @@
-package hu.bme.aut.android.expenselist.adapter
+package hu.bme.aut.android.costofliving.adapter
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import hu.bme.aut.android.expenselist.R
-import hu.bme.aut.android.expenselist.data.ExpenseItem
+import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.expenselist.databinding.ItemExpenseListBinding
 
 class ExpenseAdapter(private val listener: ExpenseItemClickListener) :
@@ -24,15 +27,24 @@ class ExpenseAdapter(private val listener: ExpenseItemClickListener) :
         holder.binding.tvName.text = expenseItem.name
         holder.binding.tvDescription.text = expenseItem.description
         holder.binding.tvCategory.text = expenseItem.category.name
-        holder.binding.tvPrice.text = "${expenseItem.estimatedPrice} Ft"
+        holder.binding.tvCost.text = "${expenseItem.cost} Ft"
 
-        /*holder.binding.cbIsBought.setOnCheckedChangeListener { buttonView, isChecked ->
-            expenseItem.isBought = isChecked
+        val color = setColor(expenseItem.isExpense)
+        holder.binding.linLayItemExpenseList.setBackgroundColor(color)
+        /*{ buttonView, isChecked ->
+            expenseItem.isExpense = isChecked
             listener.onItemChanged(expenseItem)
         }*/
         holder.binding.ibRemove.setOnClickListener{
             listener.onItemDeleted(expenseItem)
         }
+    }
+
+    private fun setColor(isExpense: Boolean): Int {
+        if (isExpense)
+            return "#3363FF".toColorInt()
+        else
+            return "#B3151A".toColorInt()
     }
 
     fun addItem(item: ExpenseItem) {

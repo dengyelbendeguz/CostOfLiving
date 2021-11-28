@@ -1,4 +1,4 @@
-package hu.bme.aut.android.expenselist.fragments
+package hu.bme.aut.android.costofliving.fragments
 
 import android.app.Dialog
 import android.content.Context
@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import hu.bme.aut.android.expenselist.R
-import hu.bme.aut.android.expenselist.data.ExpenseItem
+import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.expenselist.databinding.DialogNewExpenseItemBinding
 
 class NewExpenseItemDialogFragment : DialogFragment() {
@@ -51,10 +51,10 @@ class NewExpenseItemDialogFragment : DialogFragment() {
     private fun getExpenseItem() = ExpenseItem(
         name = binding.etName.text.toString(),
         description = binding.etDescription.text.toString(),
-        estimatedPrice = binding.etEstimatedPrice.text.toString().toIntOrNull() ?: 0,
+        cost = binding.etCost.text.toString().toIntOrNull() ?: 0,
         category = ExpenseItem.Category.getByOrdinal(binding.spCategory.selectedItemPosition)
-            ?: ExpenseItem.Category.BOOK/*,
-        isBought = binding.cbAlreadyPurchased.isChecked*/
+            ?: ExpenseItem.Category.BOOK,
+        isExpense = binding.tbExpenseToggle.isChecked
     )
 
 

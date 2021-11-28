@@ -1,21 +1,20 @@
-package hu.bme.aut.android.expenselist
+package hu.bme.aut.android.costofliving
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import hu.bme.aut.android.expenselist.adapter.ExpenseAdapter
-import hu.bme.aut.android.expenselist.data.ExpenseItem
-import hu.bme.aut.android.expenselist.data.ExpenseListDatabase
+import hu.bme.aut.android.costofliving.adapter.ExpenseAdapter
+import hu.bme.aut.android.costofliving.data.ExpenseItem
+import hu.bme.aut.android.costofliving.data.ExpenseListDatabase
 import hu.bme.aut.android.expenselist.databinding.ActivityMainBinding
-import hu.bme.aut.android.expenselist.fragments.NewExpenseItemDialogFragment
+import hu.bme.aut.android.costofliving.fragments.NewExpenseItemDialogFragment
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
     NewExpenseItemDialogFragment.NewExpenseItemDialogListener {
 
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var database: ExpenseListDatabase
     private lateinit var adapter: ExpenseAdapter
 

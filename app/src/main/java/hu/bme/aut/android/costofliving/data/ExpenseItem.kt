@@ -1,4 +1,4 @@
-package hu.bme.aut.android.expenselist.data
+package hu.bme.aut.android.costofliving.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -11,8 +11,8 @@ data class ExpenseItem(
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "category") var category: Category,
-    @ColumnInfo(name = "estimated_price") var estimatedPrice: Int/*,
-    @ColumnInfo(name = "is_bought") var isBought: Boolean*/
+    @ColumnInfo(name = "cost") var cost: Int,
+    @ColumnInfo(name = "is_expense") var isExpense: Boolean
 ) {
     enum class Category {
         FOOD, ELECTRONIC, BOOK;
