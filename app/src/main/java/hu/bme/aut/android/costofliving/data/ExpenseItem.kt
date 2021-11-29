@@ -10,11 +10,11 @@ data class ExpenseItem(
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id: Long? = null,
     @ColumnInfo(name = "name") var name: String,
     @ColumnInfo(name = "description") var description: String,
-    @ColumnInfo(name = "category") var category: Category,
+    @ColumnInfo(name = "category") var category: String/*Category*/,
     @ColumnInfo(name = "cost") var cost: Int,
     @ColumnInfo(name = "is_expense") var isExpense: Boolean
 ) {
-    enum class Category {
+    /*enum class Category {
         FOOD, ELECTRONIC, BOOK;
         companion object {
             @JvmStatic
@@ -36,5 +36,5 @@ data class ExpenseItem(
                 return category.ordinal
             }
         }
-    }
+    }*/
 }

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/light_background"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to CostOfLiving!"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:paddingTop="30dp"
+        android:layout_marginBottom="80dp"/>
+
+    <TextView
+        android:id="@+id/loginTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login:"
+        android:layout_below="@id/titleTV"/>
+    <EditText
+        android:id="@+id/userET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:layout_below="@id/loginTV"/>
+    <EditText
+        android:id="@+id/passET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_below="@id/userET"/>
+
+    <Button
+        android:id="@+id/loginBT"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passET"
+        android:layout_centerHorizontal="true"
+        android:text="Login" />
+
+    <TextView
+        android:paddingTop="100dp"
+        android:id="@+id/regiterTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register:"
+        android:layout_below="@id/loginBT"/>
+    <EditText
+        android:id="@+id/userRegisterET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:layout_below="@id/regiterTV"/>
+    <EditText
+        android:id="@+id/passRegisterET"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_below="@id/userRegisterET"/>
+    <Button
+        android:id="@+id/registerBT"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_below="@id/passRegisterET"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

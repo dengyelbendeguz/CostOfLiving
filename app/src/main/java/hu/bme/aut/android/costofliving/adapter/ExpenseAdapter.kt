@@ -26,7 +26,8 @@ class ExpenseAdapter(private val listener: ExpenseItemClickListener) :
         //holder.binding.cbIsBought.isChecked = expenseItem.isBought
         holder.binding.tvName.text = expenseItem.name
         holder.binding.tvDescription.text = expenseItem.description
-        holder.binding.tvCategory.text = expenseItem.category.name
+        //holder.binding.tvCategory.text = expenseItem.category.name
+        holder.binding.tvCategory.text = expenseItem.category
         holder.binding.tvCost.text = "${expenseItem.cost} Ft"
 
         val color = setColor(expenseItem.isExpense)
@@ -59,14 +60,14 @@ class ExpenseAdapter(private val listener: ExpenseItemClickListener) :
     }
 
 
-    @DrawableRes()
+    /*@DrawableRes()
     private fun getImageResource(category: ExpenseItem.Category): Int {
         return when (category) {
             ExpenseItem.Category.FOOD -> R.drawable.groceries
             ExpenseItem.Category.ELECTRONIC -> R.drawable.lightning
             ExpenseItem.Category.BOOK -> R.drawable.open_book
         }
-    }
+    }*/
 
 
     override fun getItemCount(): Int = items.size

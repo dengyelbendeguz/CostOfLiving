@@ -1,17 +1,29 @@
 package hu.bme.aut.android.costofliving.fragments
 
+//import hu.bme.aut.android.expenselist.R
+//import android.R
+
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.util.ArraySet
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import hu.bme.aut.android.expenselist.R
+import hu.bme.aut.android.costofliving.MainActivity
 import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.expenselist.databinding.DialogNewExpenseItemBinding
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 class NewExpenseItemDialogFragment : DialogFragment() {
+    var categorySet: MutableSet<String> = mutableSetOf<String>()
+
     interface NewExpenseItemDialogListener {
         fun onExpenseItemCreated(newItem: ExpenseItem)
     }
@@ -28,22 +40,75 @@ class NewExpenseItemDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogNewExpenseItemBinding.inflate(LayoutInflater.from(context))
+
+        //checks if categories shared preferences is not empty
+        val tempSet = (activity as MainActivity?)?.getCategories("user")!!
+        if(tempSet != resources.getStringArray(hu.bme.aut.android.expenselist.R.array.category_items).toMutableSet()){
+            categorySet = (activity as MainActivity?)?.getCategories("user")!!
+        }
+        else{
+            categorySet =
+                resources.getStringArray(hu.bme.aut.android.expenselist.R.array.category_items).toMutableSet()
+        }
+
         binding.spCategory.adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
-            resources.getStringArray(R.array.category_items)
+            categorySet.toTypedArray()
         )
 
+        binding.btAddCategory.setOnClickListener {
+            if (binding.etNewCategory.text.isEmpty()){
+                Toast.makeText(activity, "Enter a new category first!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+            else{
+                // save and set categorySet (shared preferences)
+                categorySet.add(binding.etNewCategory.text.toString())
+                (activity as MainActivity?)?.addNewCategory("user", categorySet)
+                categorySet = (activity as MainActivity?)?.getCategories("user")!!
+
+                binding.spCategory.adapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_dropdown_item,
+                    categorySet.toTypedArray()
+                )
+                return@setOnClickListener
+            }
+        }
+
+        binding.btRemoveCategory.setOnClickListener {
+            //TODO: a fenti kód (else) másolása, később refactorálni
+            val categoryToBeDeleted = binding.spCategory.selectedItem.toString()
+            categorySet.remove(categoryToBeDeleted)
+            (activity as MainActivity?)?.addNewCategory("user", categorySet)
+            categorySet = (activity as MainActivity?)?.getCategories("user")!!
+            binding.spCategory.adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_dropdown_item,
+                categorySet.toTypedArray()
+            )
+            return@setOnClickListener
+        }
+
         return AlertDialog.Builder(requireContext())
-            .setTitle(R.string.new_expense_item)
+            .setTitle(hu.bme.aut.android.expenselist.R.string.new_expense_item)
             .setView(binding.root)
-            .setPositiveButton(R.string.button_ok) { dialogInterface, i ->
+            .setPositiveButton(hu.bme.aut.android.expenselist.R.string.button_ok) { dialogInterface, i ->
                 if (isValid()) {
                     listener.onExpenseItemCreated(getExpenseItem())
                 }
             }
-            .setNegativeButton(R.string.button_cancel, null)
+            .setNegativeButton(hu.bme.aut.android.expenselist.R.string.button_cancel, null)
             .create()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return binding.root
     }
 
     private fun isValid() = binding.etName.text.isNotEmpty()
@@ -52,8 +117,9 @@ class NewExpenseItemDialogFragment : DialogFragment() {
         name = binding.etName.text.toString(),
         description = binding.etDescription.text.toString(),
         cost = binding.etCost.text.toString().toIntOrNull() ?: 0,
-        category = ExpenseItem.Category.getByOrdinal(binding.spCategory.selectedItemPosition)
-            ?: ExpenseItem.Category.BOOK,
+        /*category = ExpenseItem.Category.getByOrdinal(binding.spCategory.selectedItemPosition)
+            ?: ExpenseItem.Category.BOOK,*/
+        category =  binding.spCategory.selectedItem.toString() ?: "Food",
         isExpense = binding.tbExpenseToggle.isChecked
     )
 

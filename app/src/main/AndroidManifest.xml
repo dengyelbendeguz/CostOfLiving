@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseList">
         <activity
+            android:name="hu.bme.aut.android.costofliving.LoginActivity"
+            android:exported="true" />
+        <activity
             android:name="hu.bme.aut.android.costofliving.MainActivity"
             android:exported="true">
             <intent-filter>

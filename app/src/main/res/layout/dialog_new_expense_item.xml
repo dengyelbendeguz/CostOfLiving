@@ -1,73 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dip">
+    android:layout_width="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name"/>
-
-    <EditText
-        android:id="@+id/etName"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="24dip">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dip"
-        android:text="@string/cost"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name"/>
 
-    <EditText
-        android:id="@+id/etCost"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"/>
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dip"
-        android:text="@string/category"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dip"
+            android:text="@string/cost"/>
 
-    <Spinner
-        android:id="@+id/spCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/etCost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"/>
 
-    <Button
-        android:id="@+id/btAddCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add new category"
-        android:textSize="10sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dip"
+            android:text="@string/category"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dip"
-        android:text="@string/description"/>
+        <Spinner
+            android:id="@+id/spCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/etDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btRemoveCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove chosen category"
+            android:textSize="10sp"/>
 
-    <ToggleButton
-        android:id="@+id/tbExpenseToggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textOff="Expense"
-        android:textOn="Income"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-<!--    <CheckBox-->
-<!--        android:id="@+id/cbAlreadyPurchased"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/already_purchased"/>-->
+            <Button
+                android:id="@+id/btAddCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add new category"
+                android:textSize="10sp"/>
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/etNewCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dip"
+            android:text="@string/description"/>
+
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ToggleButton
+            android:id="@+id/tbExpenseToggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOff="Expense"
+            android:textOn="Income"/>
+
+        <!--    <CheckBox-->
+        <!--        android:id="@+id/cbAlreadyPurchased"-->
+        <!--        android:layout_width="match_parent"-->
+        <!--        android:layout_height="wrap_content"-->
+        <!--        android:text="@string/already_purchased"/>-->
+
+    </LinearLayout>
+</ScrollView>
+
