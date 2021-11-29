@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListene
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        //TODO: cseréld vissza az inetnre, ha már működik
+        /*val user = this.intent.getStringExtra("username")
+        Toast.makeText(this, "username: "+user, Toast.LENGTH_LONG).show()*/
+        val user = "test_user"
+
         database = ExpenseListDatabase.getDatabase(applicationContext)
 
         binding.fab.setOnClickListener{
@@ -91,18 +96,14 @@ class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListene
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.action_monthly_graph -> {
+            /*R.id.action_monthly_graph -> {
                 Toast.makeText(applicationContext, "click on first", Toast.LENGTH_LONG).show()
                 true
-            }
-            /*R.id.action_share ->{
-                Toast.makeText(applicationContext, "click on share", Toast.LENGTH_LONG).show()
-                return true
-            }
-            R.id.action_exit ->{
-                Toast.makeText(applicationContext, "click on exit", Toast.LENGTH_LONG).show()
-                return true
             }*/
+            R.id.action_log_out -> {
+                finish()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

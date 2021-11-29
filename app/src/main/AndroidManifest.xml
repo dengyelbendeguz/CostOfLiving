@@ -11,7 +11,8 @@
         android:theme="@style/Theme.ExpenseList">
         <activity
             android:name="hu.bme.aut.android.costofliving.LoginActivity"
-            android:exported="true" />
+            android:exported="true">
+        </activity>
         <activity
             android:name="hu.bme.aut.android.costofliving.MainActivity"
             android:exported="true">

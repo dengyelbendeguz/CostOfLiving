@@ -9,6 +9,10 @@
     <string name="new_expense_item">New Expense Item</string>
     <string name="button_ok">OK</string>
     <string name="button_cancel">Cancel</string>
+    <string name="warn_message">Enter username and password!</string>
+    <string name="wrong_credentials_message">Wrong username/password!</string>
+    <string name="user_exists_message">This username already exists!</string>
+    <string name="successful_registration_message">Successful registration!</string>
 
     <string-array name="category_items">
         <item>Food</item>
