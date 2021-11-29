@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [ExpenseItem::class], version = 1)
+@Database(entities = [ExpenseItem::class], version = 2)
 //@TypeConverters(value = [ExpenseItem.Category::class])
 abstract class ExpenseListDatabase : RoomDatabase() {
     abstract fun expenseItemDao(): ExpenseItemDao

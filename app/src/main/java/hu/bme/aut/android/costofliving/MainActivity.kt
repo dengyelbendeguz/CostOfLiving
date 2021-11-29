@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListene
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: ExpenseListDatabase
     private lateinit var adapter: ExpenseAdapter
+    /*val user = this.intent.getStringExtra("username")
+        Toast.makeText(this, "username: "+user, Toast.LENGTH_LONG).show()*/
+    val user = "test_user"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,14 +34,26 @@ class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListene
         setSupportActionBar(binding.toolbar)
 
         //TODO: cseréld vissza az inetnre, ha már működik
-        /*val user = this.intent.getStringExtra("username")
-        Toast.makeText(this, "username: "+user, Toast.LENGTH_LONG).show()*/
-        val user = "test_user"
+
 
         database = ExpenseListDatabase.getDatabase(applicationContext)
 
         binding.fab.setOnClickListener{
-            NewExpenseItemDialogFragment().show(
+            /*val bundle = Bundle()
+            bundle.putString("username", user)
+            val fragobj = NewExpenseItemDialogFragment()
+            fragobj.arguments = bundle*/
+
+            /*val mBundle = Bundle()
+            mBundle.putString("mText",mEditText.text.toString())
+            mFragment.arguments = mBundle
+            mFragmentTransaction.add(R.id.frameLayout, mFragment).commit()*/
+
+            /*val bundle = Bundle()
+            val fragment = NewExpenseItemDialogFragment()
+            fragment.arguments?.putString("username", user)
+            fragment.arguments = bundle*/
+            NewExpenseItemDialogFragment(user).show(
                 supportFragmentManager,
                 NewExpenseItemDialogFragment.TAG
             )
@@ -56,7 +71,7 @@ class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListene
 
     private fun loadItemsInBackground() {
         thread {
-            val items = database.expenseItemDao().getAll()
+            val items = database.expenseItemDao().getAll(user)
             runOnUiThread {
                 adapter.update(items)
             }

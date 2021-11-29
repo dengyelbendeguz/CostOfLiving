@@ -12,29 +12,7 @@ data class ExpenseItem(
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "category") var category: String/*Category*/,
     @ColumnInfo(name = "cost") var cost: Int,
-    @ColumnInfo(name = "is_expense") var isExpense: Boolean
+    @ColumnInfo(name = "is_expense") var isExpense: Boolean,
+    @ColumnInfo(name = "username") var username: String
 ) {
-    /*enum class Category {
-        FOOD, ELECTRONIC, BOOK;
-        companion object {
-            @JvmStatic
-            @TypeConverter
-            fun getByOrdinal(ordinal: Int): Category? {
-                var ret: Category? = null
-                for (cat in values()) {
-                    if (cat.ordinal == ordinal) {
-                        ret = cat
-                        break
-                    }
-                }
-                return ret
-            }
-
-            @JvmStatic
-            @TypeConverter
-            fun toInt(category: Category): Int {
-                return category.ordinal
-            }
-        }
-    }*/
 }

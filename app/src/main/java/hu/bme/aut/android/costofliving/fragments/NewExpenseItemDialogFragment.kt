@@ -1,12 +1,8 @@
 package hu.bme.aut.android.costofliving.fragments
 
-//import hu.bme.aut.android.expenselist.R
-//import android.R
-
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.util.ArraySet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,18 +14,15 @@ import hu.bme.aut.android.costofliving.MainActivity
 import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.expenselist.databinding.DialogNewExpenseItemBinding
 import java.util.*
-import kotlin.collections.ArrayList
+import android.R
 
-
-class NewExpenseItemDialogFragment : DialogFragment() {
-    var categorySet: MutableSet<String> = mutableSetOf<String>()
-
+class NewExpenseItemDialogFragment(val user: String) : DialogFragment() {
     interface NewExpenseItemDialogListener {
         fun onExpenseItemCreated(newItem: ExpenseItem)
     }
 
+    var categorySet: MutableSet<String> = mutableSetOf<String>()
     private lateinit var listener: NewExpenseItemDialogListener
-
     private lateinit var binding: DialogNewExpenseItemBinding
 
     override fun onAttach(context: Context) {
@@ -40,11 +33,13 @@ class NewExpenseItemDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogNewExpenseItemBinding.inflate(LayoutInflater.from(context))
+        //user = requireArguments().getString("username", "")
+        //user = savedInstanceState?.getString("username").toString()
 
         //checks if categories shared preferences is not empty
-        val tempSet = (activity as MainActivity?)?.getCategories("user")!!
+        val tempSet = (activity as MainActivity?)?.getCategories(user)!!
         if(tempSet != resources.getStringArray(hu.bme.aut.android.expenselist.R.array.category_items).toMutableSet()){
-            categorySet = (activity as MainActivity?)?.getCategories("user")!!
+            categorySet = (activity as MainActivity?)?.getCategories(user)!!
         }
         else{
             categorySet =
@@ -53,7 +48,7 @@ class NewExpenseItemDialogFragment : DialogFragment() {
 
         binding.spCategory.adapter = ArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
+            R.layout.simple_spinner_dropdown_item,
             categorySet.toTypedArray()
         )
 
@@ -65,12 +60,12 @@ class NewExpenseItemDialogFragment : DialogFragment() {
             else{
                 // save and set categorySet (shared preferences)
                 categorySet.add(binding.etNewCategory.text.toString())
-                (activity as MainActivity?)?.addNewCategory("user", categorySet)
-                categorySet = (activity as MainActivity?)?.getCategories("user")!!
+                (activity as MainActivity?)?.addNewCategory(user, categorySet)
+                categorySet = (activity as MainActivity?)?.getCategories(user)!!
 
                 binding.spCategory.adapter = ArrayAdapter(
                     requireContext(),
-                    android.R.layout.simple_spinner_dropdown_item,
+                    R.layout.simple_spinner_dropdown_item,
                     categorySet.toTypedArray()
                 )
                 return@setOnClickListener
@@ -81,11 +76,11 @@ class NewExpenseItemDialogFragment : DialogFragment() {
             //TODO: a fenti kód (else) másolása, később refactorálni
             val categoryToBeDeleted = binding.spCategory.selectedItem.toString()
             categorySet.remove(categoryToBeDeleted)
-            (activity as MainActivity?)?.addNewCategory("user", categorySet)
-            categorySet = (activity as MainActivity?)?.getCategories("user")!!
+            (activity as MainActivity?)?.addNewCategory(user, categorySet)
+            categorySet = (activity as MainActivity?)?.getCategories(user)!!
             binding.spCategory.adapter = ArrayAdapter(
                 requireContext(),
-                android.R.layout.simple_spinner_dropdown_item,
+                R.layout.simple_spinner_dropdown_item,
                 categorySet.toTypedArray()
             )
             return@setOnClickListener
@@ -108,6 +103,7 @@ class NewExpenseItemDialogFragment : DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //user = savedInstanceState?.get("username").toString()
         return binding.root
     }
 
@@ -117,10 +113,9 @@ class NewExpenseItemDialogFragment : DialogFragment() {
         name = binding.etName.text.toString(),
         description = binding.etDescription.text.toString(),
         cost = binding.etCost.text.toString().toIntOrNull() ?: 0,
-        /*category = ExpenseItem.Category.getByOrdinal(binding.spCategory.selectedItemPosition)
-            ?: ExpenseItem.Category.BOOK,*/
         category =  binding.spCategory.selectedItem.toString() ?: "Food",
-        isExpense = binding.tbExpenseToggle.isChecked
+        isExpense = binding.tbExpenseToggle.isChecked,
+        username = user
     )
 
 

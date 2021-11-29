@@ -5,8 +5,8 @@ import hu.bme.aut.android.costofliving.data.ExpenseItem
 
 @Dao
 interface ExpenseItemDao {
-    @Query("SELECT * FROM expenseitem")
-    fun getAll(): List<ExpenseItem>
+    @Query("SELECT * FROM expenseitem WHERE username=:userName")
+    fun getAll(userName: String): List<ExpenseItem>
 
     @Insert
     fun insert(expenseItems: ExpenseItem): Long
