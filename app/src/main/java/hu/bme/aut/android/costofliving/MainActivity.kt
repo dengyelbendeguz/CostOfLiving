@@ -17,15 +17,13 @@ import hu.bme.aut.android.costofliving.fragments.NewExpenseItemDialogFragment
 import hu.bme.aut.android.expenselist.R
 import kotlin.concurrent.thread
 
-class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
+class MainActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
     NewExpenseItemDialogFragment.NewExpenseItemDialogListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: ExpenseListDatabase
     private lateinit var adapter: ExpenseAdapter
-    /*val user = this.intent.getStringExtra("username")
-        Toast.makeText(this, "username: "+user, Toast.LENGTH_LONG).show()*/
-    val user = "test_user"
+    var user = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,26 +31,12 @@ class MainActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListene
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        //TODO: cseréld vissza az inetnre, ha már működik
-
+        //TODO: uncommetn it to us login activity + manifest change launcher activity
+        //user = intent.getStringExtra("username") ?: ""
+        user = "test_user"
 
         database = ExpenseListDatabase.getDatabase(applicationContext)
-
         binding.fab.setOnClickListener{
-            /*val bundle = Bundle()
-            bundle.putString("username", user)
-            val fragobj = NewExpenseItemDialogFragment()
-            fragobj.arguments = bundle*/
-
-            /*val mBundle = Bundle()
-            mBundle.putString("mText",mEditText.text.toString())
-            mFragment.arguments = mBundle
-            mFragmentTransaction.add(R.id.frameLayout, mFragment).commit()*/
-
-            /*val bundle = Bundle()
-            val fragment = NewExpenseItemDialogFragment()
-            fragment.arguments?.putString("username", user)
-            fragment.arguments = bundle*/
             NewExpenseItemDialogFragment(user).show(
                 supportFragmentManager,
                 NewExpenseItemDialogFragment.TAG
