@@ -12,6 +12,10 @@
         android:title="Yearly graph"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_list_expenses"
+        android:title="Expenses"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_log_out"
         android:title="Log out"
         app:showAsAction="never"/>

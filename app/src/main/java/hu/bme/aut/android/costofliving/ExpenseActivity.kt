@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.android.costofliving.adapter.ExpenseAdapter
@@ -15,6 +16,7 @@ import hu.bme.aut.android.costofliving.data.ExpenseListDatabase
 import hu.bme.aut.android.costofliving.fragments.NewExpenseItemDialogFragment
 import hu.bme.aut.android.expenselist.R
 import hu.bme.aut.android.expenselist.databinding.ActivityExpenseBinding
+import java.util.*
 import kotlin.concurrent.thread
 
 class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
@@ -87,12 +89,45 @@ class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickLi
         return true
     }
 
+    private fun loadYearlyItems() {
+        thread {
+            val items = database.expenseItemDao().getYearlyExpenses(
+                user,
+                Calendar.getInstance().get(Calendar.YEAR)
+            )
+            runOnUiThread {
+                adapter.update(items)
+            }
+        }
+    }
+
+    private fun loadMonthlyItems() {
+        thread {
+            val items = database.expenseItemDao().getMonthlyExpenses(
+                user,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH)
+            )
+            runOnUiThread {
+                adapter.update(items)
+            }
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            /*R.id.action_monthly_graph -> {
-                Toast.makeText(applicationContext, "click on first", Toast.LENGTH_LONG).show()
+            R.id.action_monthly_graph -> {
+                loadMonthlyItems()
                 true
-            }*/
+            }
+            R.id.action_yearly_graph -> {
+                loadYearlyItems()
+                true
+            }
+            R.id.action_list_expenses -> {
+                loadItemsInBackground()
+                true
+            }
             R.id.action_log_out -> {
                 val profileIntent = Intent(this, LoginActivity::class.java)
                 profileIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

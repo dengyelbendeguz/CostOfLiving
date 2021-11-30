@@ -112,7 +112,9 @@ class NewExpenseItemDialogFragment(val user: String) : DialogFragment() {
         cost = binding.etCost.text.toString().toIntOrNull() ?: 0,
         category =  binding.spCategory.selectedItem.toString(),
         isExpense = binding.tbExpenseToggle.isChecked,
-        username = user
+        username = user,
+        year = Calendar.getInstance().get(Calendar.YEAR),
+        month = Calendar.getInstance().get(Calendar.MONTH)
     )
 
     companion object {

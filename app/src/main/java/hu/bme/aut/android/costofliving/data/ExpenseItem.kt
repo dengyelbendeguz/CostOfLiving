@@ -12,5 +12,7 @@ data class ExpenseItem(
     @ColumnInfo(name = "category") var category: String,
     @ColumnInfo(name = "cost") var cost: Int,
     @ColumnInfo(name = "is_expense") var isExpense: Boolean,
-    @ColumnInfo(name = "username") var username: String
+    @ColumnInfo(name = "username") var username: String,
+    @ColumnInfo(name = "year") var year: Int,
+    @ColumnInfo(name = "month") var month: Int
 )
