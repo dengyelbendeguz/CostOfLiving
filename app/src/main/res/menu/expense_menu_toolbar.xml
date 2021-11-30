@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="example.javatpoint.com.kotlinoptionsmenu.MainActivity">
+    tools:context="example.javatpoint.com.kotlinoptionsmenu.ExpenseActivity">
     <item
         android:id="@+id/action_monthly_graph"
         android:title="Monthly graph"
@@ -10,10 +10,6 @@
     <item
         android:id="@+id/action_yearly_graph"
         android:title="Yearly graph"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_list_debtors"
-        android:title="List debtors"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_log_out"

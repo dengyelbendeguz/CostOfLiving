@@ -1,40 +1,36 @@
 package hu.bme.aut.android.costofliving
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.android.costofliving.adapter.ExpenseAdapter
 import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.costofliving.data.ExpenseListDatabase
-import hu.bme.aut.android.expenselist.databinding.ActivityMainBinding
 import hu.bme.aut.android.costofliving.fragments.NewExpenseItemDialogFragment
 import hu.bme.aut.android.expenselist.R
+import hu.bme.aut.android.expenselist.databinding.ActivityExpenseBinding
 import kotlin.concurrent.thread
 
-class MainActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
+class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
     NewExpenseItemDialogFragment.NewExpenseItemDialogListener {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityExpenseBinding
     private lateinit var database: ExpenseListDatabase
     private lateinit var adapter: ExpenseAdapter
     var user = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityExpenseBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-
-        //TODO: uncommetn it to us login activity + manifest change launcher activity
-        //user = intent.getStringExtra("username") ?: ""
-        user = "test_user"
-
+        user = intent.getStringExtra("username") ?: ""
         database = ExpenseListDatabase.getDatabase(applicationContext)
         binding.fab.setOnClickListener{
             NewExpenseItemDialogFragment(user).show(
@@ -42,14 +38,12 @@ class MainActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListe
                 NewExpenseItemDialogFragment.TAG
             )
         }
-
-
         initRecyclerView()
     }
     private fun initRecyclerView() {
         adapter = ExpenseAdapter(this)
-        binding.rvMain.layoutManager = LinearLayoutManager(this)
-        binding.rvMain.adapter = adapter
+        binding.rvExpense.layoutManager = LinearLayoutManager(this)
+        binding.rvExpense.adapter = adapter
         loadItemsInBackground()
     }
 
@@ -65,14 +59,14 @@ class MainActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListe
     override fun onItemChanged(item: ExpenseItem) {
         thread {
             database.expenseItemDao().update(item)
-            Log.d("MainActivity", "ExpenseItem update was successful")
+            Log.d("ExpenseActivity", "ExpenseItem update was successful")
         }
     }
 
     override fun onItemDeleted(item: ExpenseItem) {
         thread{
             database.expenseItemDao().deleteItem(item)
-            Log.d("MainActivity", "ExpenseItem delete was successful")
+            Log.d("ExpenseActivity", "ExpenseItem delete was successful")
             loadItemsInBackground()
         }
     }
@@ -89,7 +83,7 @@ class MainActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListe
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        menuInflater.inflate(R.menu.expense_menu_toolbar, menu)
         return true
     }
 
@@ -100,7 +94,9 @@ class MainActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListe
                 true
             }*/
             R.id.action_log_out -> {
-                finish()
+                val profileIntent = Intent(this, LoginActivity::class.java)
+                profileIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(profileIntent)
                 true
             }
             else -> super.onOptionsItemSelected(item)

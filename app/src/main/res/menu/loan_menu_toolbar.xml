@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="example.javatpoint.com.kotlinoptionsmenu.ExpenseActivity">
+    <item
+        android:id="@+id/action_people_i_owe"
+        android:title="People I owe"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_people_owe_me"
+        android:title="People owe me"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_log_out"
+        android:title="Log out"
+        app:showAsAction="never"/>
+</menu>

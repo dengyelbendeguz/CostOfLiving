@@ -10,22 +10,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExpenseList">
         <activity
-            android:name="hu.bme.aut.android.costofliving.LoginActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+            android:name="hu.bme.aut.android.costofliving.LoanActivity"
+            android:exported="true" />
         <activity
-            android:name="hu.bme.aut.android.costofliving.MainActivity"
-            android:exported="true">
+            android:name="hu.bme.aut.android.costofliving.ListActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="hu.bme.aut.android.costofliving.LoginActivity"
+            android:exported="true">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name="hu.bme.aut.android.costofliving.ExpenseActivity"
+            android:exported="true">
         </activity>
     </application>
 

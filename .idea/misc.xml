@@ -3,11 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/activity_expense.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/activity_list.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/activity_loan.xml" value="0.24010416666666667" />
         <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/activity_login.xml" value="0.17798913043478262" />
         <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/dialog_new_expense_item.xml" value="0.4" />
+        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/dialog_new_expense_item.xml" value="0.264" />
+        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/dialog_new_loan_item.xml" value="0.264" />
         <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/item_expense_list.xml" value="0.264" />
+        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/item_loan_list.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/layout/menu_toolbar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/menu/loan_menu_toolbar.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/dengy/AndroidStudioProjects/CostOfLiving/app/src/main/res/menu/menu_toolbar.xml" value="0.264" />
         <entry key="..\:/Users/dengy/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/dengy/AndroidStudioProjects/ShoppingList/app/src/main/res/layout/dialog_new_shopping_item.xml" value="0.2509057971014493" />

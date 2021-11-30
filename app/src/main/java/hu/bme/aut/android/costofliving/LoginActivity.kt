@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
                 password = binding.passET.text.toString()
                 val savedPassword = checkForUser(username, credentialsSharedPreferences)
                 if(savedPassword != "" && savedPassword == password){
-                    val profileIntent = Intent(this, MainActivity::class.java)
+                    val profileIntent = Intent(this, ListActivity::class.java)
                     profileIntent.putExtra("username", username)
                     startActivity(profileIntent)
                 }
@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
                 /*val savedHash = checkForUser(username, credentialsSharedPreferences)
                 if (savedHash != ""){
                     if (Bcrypt.verify(password, savedHash.toByteArray())) {
-                        val profileIntent = Intent(this, MainActivity::class.java)
+                        val profileIntent = Intent(this, ExpenseActivity::class.java)
                         startActivity(profileIntent)
                     }
                 }
