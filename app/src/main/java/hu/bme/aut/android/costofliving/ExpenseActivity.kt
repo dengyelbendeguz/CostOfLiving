@@ -25,7 +25,8 @@ class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickLi
     private lateinit var binding: ActivityExpenseBinding
     private lateinit var database: ExpenseListDatabase
     private lateinit var adapter: ExpenseAdapter
-    var user = ""
+    private lateinit var expenseItems: List<ExpenseItem>
+    private lateinit var user: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,39 +90,22 @@ class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickLi
         return true
     }
 
-    private fun loadYearlyItems() {
-        thread {
-            val items = database.expenseItemDao().getYearlyExpenses(
-                user,
-                Calendar.getInstance().get(Calendar.YEAR)
-            )
-            runOnUiThread {
-                adapter.update(items)
-            }
-        }
-    }
-
-    private fun loadMonthlyItems() {
-        thread {
-            val items = database.expenseItemDao().getMonthlyExpenses(
-                user,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH)
-            )
-            runOnUiThread {
-                adapter.update(items)
-            }
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_monthly_graph -> {
                 loadMonthlyItems()
+                createGraphSP()
+                val profileIntent = Intent(this, GraphActivity::class.java)
+                profileIntent.putExtra("text", "Monthly expenses")
+                startActivity(profileIntent)
                 true
             }
             R.id.action_yearly_graph -> {
                 loadYearlyItems()
+                createGraphSP()
+                val profileIntent = Intent(this, GraphActivity::class.java)
+                profileIntent.putExtra("text", "Yearly expenses")
+                startActivity(profileIntent)
                 true
             }
             R.id.action_list_expenses -> {
@@ -136,6 +120,51 @@ class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickLi
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun loadYearlyItems() {
+        var items: List<ExpenseItem>
+        thread {
+            items = database.expenseItemDao().getYearlyExpenses(
+                user,
+                Calendar.getInstance().get(Calendar.YEAR)
+            )
+            runOnUiThread {
+                adapter.update(items)
+            }
+            expenseItems = items
+        }
+    }
+
+    private fun loadMonthlyItems() {
+        thread {
+            val items = database.expenseItemDao().getMonthlyExpenses(
+                user,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH)
+            )
+            runOnUiThread {
+                adapter.update(items)
+            }
+            expenseItems = items
+        }
+    }
+
+    private fun createGraphSP(){
+        val categories = getCategories(user)
+        val graphSP = this.getSharedPreferences("GRAPH", Context.MODE_PRIVATE)
+        val editor:SharedPreferences.Editor =  graphSP.edit()
+        editor.clear()
+        editor.apply()
+        for(category in categories){
+            var cnt = 0
+            for(item in expenseItems){
+                if (item.category == category)
+                    cnt++
+            }
+            editor.putFloat(category, cnt.toFloat())
+        }
+        editor.apply()
     }
 
     fun addNewCategory(user: String, categorySet: MutableSet<String>){
