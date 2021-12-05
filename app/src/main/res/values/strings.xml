@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ExpenseList</string>
+    <string name="app_name">Cost Of Living</string>
     <string name="bought">Bought</string>
     <string name="name">Name</string>
     <string name="description">Description</string>

@@ -22,6 +22,7 @@ class NewExpenseItemDialogFragment(private val user: String) : DialogFragment() 
     private var categorySet: MutableSet<String> = mutableSetOf()
     private lateinit var listener: NewExpenseItemDialogListener
     private lateinit var binding: DialogNewExpenseItemBinding
+    private var cost = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -95,16 +96,26 @@ class NewExpenseItemDialogFragment(private val user: String) : DialogFragment() 
 
     private fun isValid() = binding.etName.text.isNotEmpty()
 
-    private fun getExpenseItem() = ExpenseItem(
-        name = binding.etName.text.toString(),
-        description = binding.etDescription.text.toString(),
-        cost = binding.etCost.text.toString().toIntOrNull() ?: 0,
-        category =  binding.spCategory.selectedItem.toString(),
-        isExpense = binding.tbExpenseToggle.isChecked,
-        username = user,
-        year = Calendar.getInstance().get(Calendar.YEAR),
-        month = Calendar.getInstance().get(Calendar.MONTH)
-    )
+    private fun getExpenseItem(): ExpenseItem{
+        //checks if te amount is expense (+) or income (-)
+        if (binding.tbExpenseToggle.isChecked){
+            cost = -binding.etCost.text.toString().toIntOrNull()!!
+        }
+        else{
+            cost = binding.etCost.text.toString().toIntOrNull()!!
+        }
+
+        return ExpenseItem(
+            name = binding.etName.text.toString(),
+            description = binding.etDescription.text.toString(),
+            cost = cost,
+            category =  binding.spCategory.selectedItem.toString(),
+            isExpense = binding.tbExpenseToggle.isChecked,
+            username = user,
+            year = Calendar.getInstance().get(Calendar.YEAR),
+            month = Calendar.getInstance().get(Calendar.MONTH)
+        )
+    }
 
     companion object {
         const val TAG = "NewExpenseItemDialogFragment"

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="hu.bme.aut.android.costofliving.GraphActivity">
+    tools:context="hu.bme.aut.android.costofliving.GraphActivity"
+    android:background="@drawable/light_background">
 
     <TextView
         android:id="@+id/tvChartName"
@@ -13,6 +14,22 @@
         android:layout_gravity="center_horizontal"
         android:textColor="@color/light_orange"
         android:textSize="36sp" />
+
+    <TextView
+        android:id="@+id/tvTotalExpenses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/red"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tvTotalIncomes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/blue"
+        android:textSize="20sp" />
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/chartExpenses"

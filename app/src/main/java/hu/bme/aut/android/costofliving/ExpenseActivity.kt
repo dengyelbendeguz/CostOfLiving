@@ -26,6 +26,9 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     private lateinit var adapter: ExpenseAdapter
     private lateinit var expenseItems: List<ExpenseItem>
     private lateinit var user: String
+    private var totalCost: Float = 0.0f
+    private var totalExpenses: Float = 0.0f
+    private var totalIncomes: Float = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +99,9 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
                 createGraphSP()
                 val profileIntent = Intent(this, GraphActivity::class.java)
                 profileIntent.putExtra("text", "Monthly expenses")
+                profileIntent.putExtra("totalCost", totalCost)
+                profileIntent.putExtra("totalExpenses", totalExpenses)
+                profileIntent.putExtra("totalIncomes", totalIncomes)
                 startActivity(profileIntent)
                 true
             }
@@ -104,6 +110,9 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
                 createGraphSP()
                 val profileIntent = Intent(this, GraphActivity::class.java)
                 profileIntent.putExtra("text", "Yearly expenses")
+                profileIntent.putExtra("totalCost", totalCost)
+                profileIntent.putExtra("totalExpenses", totalExpenses)
+                profileIntent.putExtra("totalIncomes", totalIncomes)
                 startActivity(profileIntent)
                 true
             }
@@ -155,13 +164,23 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         val editor:SharedPreferences.Editor =  graphSP.edit()
         editor.clear()
         editor.apply()
+        totalCost = 0.0f
+        totalExpenses = 0.0f
+        totalIncomes = 0.0f
         for(category in categories){
-            var cnt = 0
+            var cost = 0.0f
             for(item in expenseItems){
-                if (item.category == category)
-                    cnt++
+                if (item.category == category){
+                    cost += item.cost
+                    if (item.isExpense)
+                        totalIncomes += item.cost
+                    else{
+                        totalExpenses += item.cost
+                    }
+                }
+                totalCost += item.cost
             }
-            editor.putFloat(category, cnt.toFloat())
+            editor.putFloat(category, cost)
         }
         editor.apply()
     }
