@@ -35,6 +35,7 @@
     <string name="log_out">Log out</string>
     <string name="people_i_owe">People I owe</string>
     <string name="people_owe_me">People owe me</string>
+    <string name="enter_data_message">Supply name and cost!</string>
 
     <string-array name="category_items">
         <item>Food</item>

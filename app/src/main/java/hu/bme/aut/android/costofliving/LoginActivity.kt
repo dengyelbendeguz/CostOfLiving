@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
                 val savedHash = checkForHash(username, credentialsSharedPreferences)
                 if (savedHash.isNotEmpty()){
                     if (Bcrypt.verify(password, savedHash)) {
-                        val profileIntent = Intent(this, ExpenseActivity::class.java)
+                        val profileIntent = Intent(this, ListActivity::class.java)
                         profileIntent.putExtra("username", username)
                         startActivity(profileIntent)
                     }

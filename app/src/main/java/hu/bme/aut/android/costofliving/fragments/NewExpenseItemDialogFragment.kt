@@ -32,17 +32,7 @@ class NewExpenseItemDialogFragment(private val user: String) : DialogFragment() 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogNewExpenseItemBinding.inflate(LayoutInflater.from(context))
-
-        //checks if categories shared preferences is not empty
-        val tempSet = (activity as ExpenseActivity?)?.getCategories(user)!!
-        if(tempSet != resources.getStringArray(hu.bme.aut.android.expenselist.R.array.category_items).toMutableSet()){
-            categorySet = (activity as ExpenseActivity?)?.getCategories(user)!!
-        }
-        else{
-            categorySet =
-                resources.getStringArray(hu.bme.aut.android.expenselist.R.array.category_items).toMutableSet()
-        }
-
+        categorySet = (activity as ExpenseActivity?)?.getCategories(user)!!
         binding.spCategory.adapter = ArrayAdapter(
             requireContext(),
             R.layout.simple_spinner_dropdown_item,
@@ -94,7 +84,14 @@ class NewExpenseItemDialogFragment(private val user: String) : DialogFragment() 
             .create()
     }
 
-    private fun isValid() = binding.etName.text.isNotEmpty()
+    private fun isValid(): Boolean{
+        if (binding.etName.text.isNotEmpty() && binding.etCost.text.isNotEmpty())
+            return true
+        else{
+            Toast.makeText(activity, hu.bme.aut.android.expenselist.R.string.enter_data_message, Toast.LENGTH_LONG).show()
+            return false
+        }
+    }
 
     private fun getExpenseItem(): ExpenseItem{
         //checks if te amount is expense (+) or income (-)

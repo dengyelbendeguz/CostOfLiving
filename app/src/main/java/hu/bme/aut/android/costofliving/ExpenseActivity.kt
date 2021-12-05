@@ -167,7 +167,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         totalCost = 0.0f
         totalExpenses = 0.0f
         totalIncomes = 0.0f
-        for(category in categories){
+        for(category in categories!!){
             var cost = 0.0f
             for(item in expenseItems){
                 if (item.category == category){
@@ -192,10 +192,13 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         editor.apply()
     }
 
-    fun getCategories(user: String): MutableSet<String> {
+    fun getCategories(user: String): MutableSet<String>? {
         val categoriesSP = this.getSharedPreferences("CATEGORIES", Context.MODE_PRIVATE)
         val defaultSet: MutableSet<String> =
             resources.getStringArray(R.array.category_items).toMutableSet()
-        return categoriesSP.getStringSet(user, setOf())?.toMutableSet() ?: defaultSet
+        if (categoriesSP.getStringSet(user, setOf())?.size == 0)
+            return defaultSet
+        else
+            return categoriesSP.getStringSet(user, setOf())?.toMutableSet()
     }
 }
