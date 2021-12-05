@@ -15,13 +15,13 @@ import hu.bme.aut.android.expenselist.R
 import hu.bme.aut.android.expenselist.databinding.ActivityLoanBinding
 import kotlin.concurrent.thread
 
-class LoanActivity() : AppCompatActivity(), LoanAdapter.LoanItemClickListener,
+class LoanActivity: AppCompatActivity(), LoanAdapter.LoanItemClickListener,
     NewLoanItemDialogFragment.NewLoanItemDialogListener {
 
     private lateinit var binding: ActivityLoanBinding
     private lateinit var database: LoanListDatabase
     private lateinit var adapter: LoanAdapter
-    var user = ""
+    private lateinit var user: String
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

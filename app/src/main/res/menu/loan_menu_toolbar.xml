@@ -5,14 +5,14 @@
     tools:context="example.javatpoint.com.kotlinoptionsmenu.ExpenseActivity">
     <item
         android:id="@+id/action_people_i_owe"
-        android:title="People I owe"
+        android:title="@string/people_i_owe"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_people_owe_me"
-        android:title="People owe me"
+        android:title="@string/people_owe_me"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_log_out"
-        android:title="Log out"
+        android:title="@string/log_out"
         app:showAsAction="never"/>
 </menu>

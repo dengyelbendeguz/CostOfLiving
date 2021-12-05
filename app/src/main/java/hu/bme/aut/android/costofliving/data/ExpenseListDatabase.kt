@@ -15,7 +15,7 @@ abstract class ExpenseListDatabase : RoomDatabase() {
                 applicationContext,
                 ExpenseListDatabase::class.java,
                 "expense-list"
-            ).build();
+            ).build()
         }
     }
 }

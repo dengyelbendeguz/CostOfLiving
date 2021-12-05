@@ -4,14 +4,12 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import hu.bme.aut.android.costofliving.data.LoanItem
 import hu.bme.aut.android.expenselist.databinding.DialogNewLoanItemBinding
 
-class NewLoanItemDialogFragment(val user: String) : DialogFragment() {
+class NewLoanItemDialogFragment(private val user: String) : DialogFragment() {
     interface NewLoanItemDialogListener {
         fun onLoanItemCreated(newItem: LoanItem)
     }
@@ -38,14 +36,6 @@ class NewLoanItemDialogFragment(val user: String) : DialogFragment() {
             }
             .setNegativeButton(hu.bme.aut.android.expenselist.R.string.button_cancel, null)
             .create()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return binding.root
     }
 
     private fun isValid() = binding.etLoanerName.text.isNotEmpty()

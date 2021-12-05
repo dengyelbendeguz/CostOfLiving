@@ -13,9 +13,9 @@ class ListActivity : AppCompatActivity() {
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //TODO: uncommetn it to us login activity + manifest change launcher activity
-        val username = "test_user"
-        //val username = intent.getStringExtra("username") ?: ""
+        //DO NOT DELETE THE COMMENT  BELOW! (FOR TEST USE)
+        //val username = "test_user"
+        val username = intent.getStringExtra("username") ?: ""
 
         binding.btnExpense.setOnClickListener {
             val profileIntent = Intent(this, ExpenseActivity::class.java)

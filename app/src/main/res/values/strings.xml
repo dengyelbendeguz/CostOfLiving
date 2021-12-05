@@ -14,6 +14,27 @@
     <string name="wrong_credentials_message">Wrong username/password!</string>
     <string name="user_exists_message">This username already exists!</string>
     <string name="successful_registration_message">Successful registration!</string>
+    <string name="expenses_incomes">Expenses / Incomes</string>
+    <string name="loans">Loans</string>
+    <string name="login_welcome">Welcome to CostOfLiving!</string>
+    <string name="login">Login</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="register">Register</string>
+    <string name="remove_chosen_category">Remove chosen category</string>
+    <string name="add_new_category">Add new category</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="person_i_owe_owes_me">Person I owe/owes me</string>
+    <string name="amount">Amount</string>
+    <string name="owes_me">owes me</string>
+    <string name="i_owe">i owe</string>
+    <string name="monthly_graph">Monthly graph</string>
+    <string name="yearly_graph">Yearly graph</string>
+    <string name="expenses">Expenses</string>
+    <string name="log_out">Log out</string>
+    <string name="people_i_owe">People I owe</string>
+    <string name="people_owe_me">People owe me</string>
 
     <string-array name="category_items">
         <item>Food</item>

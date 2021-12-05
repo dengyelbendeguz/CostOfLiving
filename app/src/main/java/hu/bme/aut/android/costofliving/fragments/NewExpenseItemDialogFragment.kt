@@ -1,11 +1,10 @@
 package hu.bme.aut.android.costofliving.fragments
 
+import android.R
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -14,14 +13,13 @@ import hu.bme.aut.android.costofliving.ExpenseActivity
 import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.expenselist.databinding.DialogNewExpenseItemBinding
 import java.util.*
-import android.R
 
-class NewExpenseItemDialogFragment(val user: String) : DialogFragment() {
+class NewExpenseItemDialogFragment(private val user: String) : DialogFragment() {
     interface NewExpenseItemDialogListener {
         fun onExpenseItemCreated(newItem: ExpenseItem)
     }
 
-    var categorySet: MutableSet<String> = mutableSetOf<String>()
+    private var categorySet: MutableSet<String> = mutableSetOf()
     private lateinit var listener: NewExpenseItemDialogListener
     private lateinit var binding: DialogNewExpenseItemBinding
 
@@ -71,7 +69,6 @@ class NewExpenseItemDialogFragment(val user: String) : DialogFragment() {
         }
 
         binding.btRemoveCategory.setOnClickListener {
-            //TODO: a fenti kód (else) másolása, később refactorálni
             val categoryToBeDeleted = binding.spCategory.selectedItem.toString()
             categorySet.remove(categoryToBeDeleted)
             (activity as ExpenseActivity?)?.addNewCategory(user, categorySet)
@@ -94,14 +91,6 @@ class NewExpenseItemDialogFragment(val user: String) : DialogFragment() {
             }
             .setNegativeButton(hu.bme.aut.android.expenselist.R.string.button_cancel, null)
             .create()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return binding.root
     }
 
     private fun isValid() = binding.etName.text.isNotEmpty()

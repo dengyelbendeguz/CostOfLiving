@@ -5,18 +5,18 @@
     tools:context="example.javatpoint.com.kotlinoptionsmenu.ExpenseActivity">
     <item
         android:id="@+id/action_monthly_graph"
-        android:title="Monthly graph"
+        android:title="@string/monthly_graph"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_yearly_graph"
-        android:title="Yearly graph"
+        android:title="@string/yearly_graph"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_list_expenses"
-        android:title="Expenses"
+        android:title="@string/expenses"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_log_out"
-        android:title="Log out"
+        android:title="@string/log_out"
         app:showAsAction="never"/>
 </menu>

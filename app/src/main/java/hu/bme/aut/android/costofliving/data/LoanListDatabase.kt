@@ -15,7 +15,7 @@ abstract class LoanListDatabase : RoomDatabase() {
                 applicationContext,
                 LoanListDatabase::class.java,
                 "loan-list"
-            ).build();
+            ).build()
         }
     }
 }

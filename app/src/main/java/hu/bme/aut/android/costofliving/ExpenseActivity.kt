@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.android.costofliving.adapter.ExpenseAdapter
@@ -19,7 +18,7 @@ import hu.bme.aut.android.expenselist.databinding.ActivityExpenseBinding
 import java.util.*
 import kotlin.concurrent.thread
 
-class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
+class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
     NewExpenseItemDialogFragment.NewExpenseItemDialogListener {
 
     private lateinit var binding: ActivityExpenseBinding
@@ -174,12 +173,10 @@ class ExpenseActivity() : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickLi
         editor.apply()
     }
 
-    fun getCategories(user: String): MutableSet<String>{
+    fun getCategories(user: String): MutableSet<String> {
         val categoriesSP = this.getSharedPreferences("CATEGORIES", Context.MODE_PRIVATE)
         val defaultSet: MutableSet<String> =
-        resources.getStringArray(hu.bme.aut.android.expenselist.R.array.category_items).toMutableSet()
-        val categories: MutableSet<String> =
-            categoriesSP.getStringSet(user, setOf<String>())?.toMutableSet() ?: defaultSet
-        return  categories
+            resources.getStringArray(R.array.category_items).toMutableSet()
+        return categoriesSP.getStringSet(user, setOf())?.toMutableSet() ?: defaultSet
     }
 }

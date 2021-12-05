@@ -4,9 +4,8 @@
     android:layout_width="match_parent">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dip">
 
@@ -17,6 +16,7 @@
 
         <EditText
             android:id="@+id/etName"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -47,8 +47,8 @@
             android:id="@+id/btRemoveCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Remove chosen category"
-            android:textSize="10sp"/>
+            android:text="@string/remove_chosen_category"
+            android:textSize="11sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,16 +60,16 @@
                 android:id="@+id/btAddCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add new category"
-                android:textSize="10sp"/>
+                android:text="@string/add_new_category"
+                android:textSize="11sp"/>
 
             <EditText
                 android:id="@+id/etNewCategory"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,6 +79,7 @@
 
         <EditText
             android:id="@+id/etDescription"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -86,14 +87,8 @@
             android:id="@+id/tbExpenseToggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOff="Expense"
-            android:textOn="Income"/>
-
-        <!--    <CheckBox-->
-        <!--        android:id="@+id/cbAlreadyPurchased"-->
-        <!--        android:layout_width="match_parent"-->
-        <!--        android:layout_height="wrap_content"-->
-        <!--        android:text="@string/already_purchased"/>-->
+            android:textOff="@string/expense"
+            android:textOn="@string/income"/>
 
     </LinearLayout>
 </ScrollView>

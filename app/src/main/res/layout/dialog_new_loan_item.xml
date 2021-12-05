@@ -4,17 +4,17 @@
     android:layout_width="match_parent">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="24dip">
 
         <EditText
             android:id="@+id/etLoanerName"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Person I owe/owes me"
+            android:hint="@string/person_i_owe_owes_me"
             android:textStyle="italic"/>
 
         <EditText
@@ -22,22 +22,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:hint="Amount"
+            android:hint="@string/amount"
             android:textStyle="italic"/>
 
         <EditText
             android:id="@+id/etDescription"
+            android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
+            android:hint="@string/description"
             android:textStyle="italic"/>
 
         <ToggleButton
             android:id="@+id/tbLoanerToggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOff="owes me"
-            android:textOn="i owe"/>
+            android:textOff="@string/owes_me"
+            android:textOn="@string/i_owe"/>
 
     </LinearLayout>
 </ScrollView>
