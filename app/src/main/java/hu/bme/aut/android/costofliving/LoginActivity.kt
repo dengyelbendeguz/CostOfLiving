@@ -6,8 +6,11 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.toxicbakery.bcrypt.Bcrypt
 import hu.bme.aut.android.expenselist.R
 import hu.bme.aut.android.expenselist.databinding.ActivityLoginBinding
+import java.util.*
+
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -29,29 +32,18 @@ class LoginActivity : AppCompatActivity() {
             else{
                 username = binding.userET.text.toString()
                 password = binding.passET.text.toString()
-                val savedPassword = checkForUser(username, credentialsSharedPreferences)
-                if(savedPassword != "" && savedPassword == password){
-                    val profileIntent = Intent(this, ListActivity::class.java)
-                    profileIntent.putExtra("username", username)
-                    startActivity(profileIntent)
-                }
-                else{
-                    Toast.makeText(this, R.string.wrong_credentials_message, Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
-
-                //HASHING:
-                /*val savedHash = checkForUser(username, credentialsSharedPreferences)
-                if (savedHash != ""){
-                    if (Bcrypt.verify(password, savedHash.toByteArray())) {
+                val savedHash = checkForHash(username, credentialsSharedPreferences)
+                if (savedHash.isNotEmpty()){
+                    if (Bcrypt.verify(password, savedHash)) {
                         val profileIntent = Intent(this, ExpenseActivity::class.java)
+                        profileIntent.putExtra("username", username)
                         startActivity(profileIntent)
                     }
                 }
                 else{
                     Toast.makeText(this, R.string.wrong_credentials_message, Toast.LENGTH_LONG).show()
                     return@setOnClickListener
-                }*/
+                }
             }
         }
 
@@ -64,46 +56,38 @@ class LoginActivity : AppCompatActivity() {
             else{
                 username = binding.userRegisterET.text.toString()
                 password = binding.passRegisterET.text.toString()
-                val tempPassword = checkForUser(username, credentialsSharedPreferences)
-                if (tempPassword != ""){
-                    Toast.makeText(this, R.string.user_exists_message, Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
-                else{
-                    val editor:SharedPreferences.Editor = credentialsSharedPreferences.edit()
-                    editor.putString(username, password)
-                    editor.apply()
-                    Toast.makeText(this, R.string.successful_registration_message, Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
-
-                //HASHING:
-                /*val tmpHashPass = checkForUser(username, credentialsSharedPreferences)
-                if (tmpHashPass != ""){
+                val tmpHashPass = checkForHash(username, credentialsSharedPreferences)
+                if (tmpHashPass.isNotEmpty()){
                     Toast.makeText(this, R.string.user_exists_message, Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
                 else{
                     val hashedPassword = Bcrypt.hash(password, 4)
-
-                    val editor:SharedPreferences.Editor = credentialsSharedPreferences.edit()
-                    editor.putString(username, hashedPassword.toString())
-                    editor.apply()
+                    saveHash(username,
+                        hashedPassword.contentToString(), credentialsSharedPreferences)
                     Toast.makeText(this, R.string.successful_registration_message, Toast.LENGTH_LONG).show()
                     return@setOnClickListener
-                }*/
+                }
             }
         }
     }
 
-    private fun checkForUser(username: String, sp: SharedPreferences): String{
-        val keys: Map<String, *> = sp.all
-        var hashedPassword = ""
-        for ((key, value) in keys) {
-            if(key == username){
-                hashedPassword = value.toString()
+    private fun saveHash(username: String, hashedPassword: String, sp: SharedPreferences){
+        val editor = sp.edit()
+        editor.putString(username, hashedPassword)
+        editor.apply()
+    }
+
+    private fun checkForHash(username: String, sp: SharedPreferences): ByteArray{
+        val stringArray = sp.getString(username, null)
+        var byteArray = byteArrayOf()
+        if (stringArray != null) {
+            val split = stringArray.substring(1, stringArray.length - 1).split(", ").toTypedArray()
+            byteArray = ByteArray(split.size)
+            for (i in split.indices) {
+                byteArray[i] = split[i].toByte()
             }
         }
-        return hashedPassword
+        return byteArray
     }
 }
