@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,31 +12,31 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/name"/>
+            android:text="@string/name" />
 
         <EditText
             android:id="@+id/etName"
-            android:inputType="text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dip"
-            android:text="@string/cost"/>
+            android:text="@string/cost" />
 
         <EditText
             android:id="@+id/etCost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dip"
-            android:text="@string/category"/>
+            android:text="@string/category" />
 
         <Spinner
             android:id="@+id/spCategory"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remove_chosen_category"
-            android:textSize="11sp"/>
+            android:textSize="11sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,13 +61,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add_new_category"
-                android:textSize="11sp"/>
+                android:textSize="11sp" />
 
             <EditText
                 android:id="@+id/etNewCategory"
-                android:inputType="text"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:inputType="text" />
 
         </LinearLayout>
 
@@ -75,20 +75,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dip"
-            android:text="@string/description"/>
+            android:text="@string/description" />
 
         <EditText
             android:id="@+id/etDescription"
-            android:inputType="text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <ToggleButton
-            android:id="@+id/tbExpenseToggle"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textOff="@string/expense"
-            android:textOn="@string/income"/>
+            android:inputType="text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/tbExpenseToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOff="@string/expense"
+                android:textOn="@string/income" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:text="@string/shared_expense"
+                android:textAlignment="textEnd" />
+
+            <CheckBox
+                android:id="@+id/cbIsShared"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

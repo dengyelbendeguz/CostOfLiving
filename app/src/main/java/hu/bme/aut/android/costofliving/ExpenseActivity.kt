@@ -13,10 +13,10 @@ import hu.bme.aut.android.costofliving.adapter.ExpenseAdapter
 import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.costofliving.data.ExpenseListDatabase
 import hu.bme.aut.android.costofliving.fragments.NewExpenseItemDialogFragment
-import hu.bme.aut.android.expenselist.R
 import hu.bme.aut.android.expenselist.databinding.ActivityExpenseBinding
 import java.util.*
 import kotlin.concurrent.thread
+
 
 class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
     NewExpenseItemDialogFragment.NewExpenseItemDialogListener {
@@ -29,6 +29,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     private var totalCost: Float = 0.0f
     private var totalExpenses: Float = 0.0f
     private var totalIncomes: Float = 0.0f
+    private var sharedAppear: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +38,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         setSupportActionBar(binding.toolbar)
         user = intent.getStringExtra("username") ?: ""
         database = ExpenseListDatabase.getDatabase(applicationContext)
-        binding.fab.setOnClickListener{
+        binding.fab.setOnClickListener {
             NewExpenseItemDialogFragment(user).show(
                 supportFragmentManager,
                 NewExpenseItemDialogFragment.TAG
@@ -45,6 +46,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         }
         initRecyclerView()
     }
+
     private fun initRecyclerView() {
         adapter = ExpenseAdapter(this)
         binding.rvExpense.layoutManager = LinearLayoutManager(this)
@@ -54,9 +56,18 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
 
     private fun loadItemsInBackground() {
         thread {
-            val items = database.expenseItemDao().getAll(user)
+            expenseItems = database.expenseItemDao().getAll(user)
             runOnUiThread {
-                adapter.update(items)
+                adapter.update(expenseItems)
+            }
+        }
+    }
+
+    private fun loadSharedExpenses() {
+        thread {
+            expenseItems = database.expenseItemDao().getSharedExpenses()
+            runOnUiThread {
+                adapter.update(expenseItems)
             }
         }
     }
@@ -69,7 +80,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     }
 
     override fun onItemDeleted(item: ExpenseItem) {
-        thread{
+        thread {
             database.expenseItemDao().deleteItem(item)
             Log.d("ExpenseActivity", "ExpenseItem delete was successful")
             loadItemsInBackground()
@@ -79,7 +90,6 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     override fun onExpenseItemCreated(newItem: ExpenseItem) {
         thread {
             database.expenseItemDao().insert(newItem)
-
             runOnUiThread {
                 adapter.addItem(newItem)
             }
@@ -87,42 +97,47 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.expense_menu_toolbar, menu)
+        menuInflater.inflate(hu.bme.aut.android.expenselist.R.menu.expense_menu_toolbar, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        super.onPrepareOptionsMenu(menu)
+        menu.findItem(hu.bme.aut.android.expenselist.R.id.action_get_shared).isVisible =
+            !sharedAppear
+        menu.findItem(hu.bme.aut.android.expenselist.R.id.action_uncheck_shared).isVisible =
+            sharedAppear
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        sharedAppear = false
         return when (item.itemId) {
-            R.id.action_monthly_graph -> {
+            hu.bme.aut.android.expenselist.R.id.action_monthly_graph -> {
                 loadMonthlyItems()
-                createGraphSP()
-                val profileIntent = Intent(this, GraphActivity::class.java)
-                profileIntent.putExtra("text", "Monthly expenses")
-                profileIntent.putExtra("totalCost", totalCost)
-                profileIntent.putExtra("totalExpenses", totalExpenses)
-                profileIntent.putExtra("totalIncomes", totalIncomes)
-                startActivity(profileIntent)
                 true
             }
-            R.id.action_yearly_graph -> {
+            hu.bme.aut.android.expenselist.R.id.action_yearly_graph -> {
                 loadYearlyItems()
-                createGraphSP()
-                val profileIntent = Intent(this, GraphActivity::class.java)
-                profileIntent.putExtra("text", "Yearly expenses")
-                profileIntent.putExtra("totalCost", totalCost)
-                profileIntent.putExtra("totalExpenses", totalExpenses)
-                profileIntent.putExtra("totalIncomes", totalIncomes)
-                startActivity(profileIntent)
                 true
             }
-            R.id.action_list_expenses -> {
+            hu.bme.aut.android.expenselist.R.id.action_get_shared -> {
+                loadSharedExpenses()
+                sharedAppear = true
+                true
+            }
+            hu.bme.aut.android.expenselist.R.id.action_uncheck_shared -> {
+                uncheckAll()
+                true
+            }
+            hu.bme.aut.android.expenselist.R.id.action_list_expenses -> {
                 loadItemsInBackground()
                 true
             }
-            R.id.action_log_out -> {
+            hu.bme.aut.android.expenselist.R.id.action_log_out -> {
                 val profileIntent = Intent(this, LoginActivity::class.java)
-                profileIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                profileIntent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(profileIntent)
                 true
             }
@@ -130,51 +145,68 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         }
     }
 
+    private fun initializeGraph(dateType: String){
+        createGraphSP()
+        val profileIntent = Intent(this, GraphActivity::class.java)
+        profileIntent.putExtra("text", dateType)
+        profileIntent.putExtra("totalCost", totalCost)
+        profileIntent.putExtra("totalExpenses", totalExpenses)
+        profileIntent.putExtra("totalIncomes", totalIncomes)
+        startActivity(profileIntent)
+    }
+
+    private fun uncheckAll() {
+        for (item in expenseItems) {
+            item.isShared = false
+            onItemChanged(item)
+        }
+        adapter.update(expenseItems)
+    }
+
     private fun loadYearlyItems() {
-        var items: List<ExpenseItem>
         thread {
-            items = database.expenseItemDao().getYearlyExpenses(
+            expenseItems = database.expenseItemDao().getYearlyExpenses(
                 user,
                 Calendar.getInstance().get(Calendar.YEAR)
             )
-            runOnUiThread {
-                adapter.update(items)
-            }
-            expenseItems = items
+            /*runOnUiThread {
+                adapter.update(expenseItems)
+            }*/
+            initializeGraph("Yearly expenses")
         }
     }
 
     private fun loadMonthlyItems() {
         thread {
-            val items = database.expenseItemDao().getMonthlyExpenses(
+            expenseItems = database.expenseItemDao().getMonthlyExpenses(
                 user,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH)
             )
-            runOnUiThread {
-                adapter.update(items)
-            }
-            expenseItems = items
+            /*runOnUiThread {
+                adapter.update(expenseItems)
+            }*/
+            initializeGraph("Monthly expenses")
         }
     }
 
-    private fun createGraphSP(){
+    private fun createGraphSP() {
         val categories = getCategories(user)
         val graphSP = this.getSharedPreferences("GRAPH", Context.MODE_PRIVATE)
-        val editor:SharedPreferences.Editor =  graphSP.edit()
+        val editor: SharedPreferences.Editor = graphSP.edit()
         editor.clear()
         editor.apply()
         totalCost = 0.0f
         totalExpenses = 0.0f
         totalIncomes = 0.0f
-        for(category in categories!!){
+        for (category in categories!!) {
             var cost = 0.0f
-            for(item in expenseItems){
-                if (item.category == category){
+            for (item in expenseItems) {
+                if (item.category == category) {
                     cost += item.cost
                     if (item.isExpense)
                         totalIncomes += item.cost
-                    else{
+                    else {
                         totalExpenses += item.cost
                     }
                 }
@@ -185,9 +217,9 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         editor.apply()
     }
 
-    fun addNewCategory(user: String, categorySet: MutableSet<String>){
+    fun addNewCategory(user: String, categorySet: MutableSet<String>) {
         val categoriesSP = this.getSharedPreferences("CATEGORIES", Context.MODE_PRIVATE)
-        val editor:SharedPreferences.Editor =  categoriesSP.edit()
+        val editor: SharedPreferences.Editor = categoriesSP.edit()
         editor.putStringSet(user, categorySet)
         editor.apply()
     }
@@ -195,7 +227,8 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     fun getCategories(user: String): MutableSet<String>? {
         val categoriesSP = this.getSharedPreferences("CATEGORIES", Context.MODE_PRIVATE)
         val defaultSet: MutableSet<String> =
-            resources.getStringArray(R.array.category_items).toMutableSet()
+            resources.getStringArray(hu.bme.aut.android.expenselist.R.array.category_items)
+                .toMutableSet()
         if (categoriesSP.getStringSet(user, setOf())?.size == 0)
             return defaultSet
         else

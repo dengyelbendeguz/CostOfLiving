@@ -12,6 +12,14 @@
         android:title="@string/yearly_graph"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/action_get_shared"
+        android:title="@string/shared_expenses"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_uncheck_shared"
+        android:title="@string/uncheck_all"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/action_list_expenses"
         android:title="@string/expenses"
         app:showAsAction="never"/>

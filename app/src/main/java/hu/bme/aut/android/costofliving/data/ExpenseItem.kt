@@ -14,5 +14,6 @@ data class ExpenseItem(
     @ColumnInfo(name = "is_expense") var isExpense: Boolean,
     @ColumnInfo(name = "username") var username: String,
     @ColumnInfo(name = "year") var year: Int,
-    @ColumnInfo(name = "month") var month: Int
+    @ColumnInfo(name = "month") var month: Int,
+    @ColumnInfo(name = "is_shared") var isShared: Boolean
 )

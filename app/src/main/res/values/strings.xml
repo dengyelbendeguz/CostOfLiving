@@ -36,6 +36,14 @@
     <string name="people_i_owe">People I owe</string>
     <string name="people_owe_me">People owe me</string>
     <string name="enter_data_message">Supply name and cost!</string>
+    <string name="shared_expense">Shared expense:</string>
+    <string name="shared_expenses">Shared expenses</string>
+    <string name="uncheck_all">Uncheck all shared expenses</string>
+    <string name="export_dbs">Export databases</string>
+    <string name="import_dbs">Import databases</string>
+    <string name="auto_backup">Auto backup</string>
+    <string name="csv_file_generated_text">CSV file generated successfully!</string>
+    <string name="csv_file_not_generated_text">Faild to generate CSV file!</string>
 
     <string-array name="category_items">
         <item>Food</item>

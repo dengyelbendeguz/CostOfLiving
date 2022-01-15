@@ -13,6 +13,9 @@ interface ExpenseItemDao {
     @Query("SELECT * FROM expenseitem WHERE username=:userName AND year=:year AND month=:month")
     fun getMonthlyExpenses(userName: String, year: Int, month: Int): List<ExpenseItem>
 
+    @Query("SELECT * FROM  expenseitem WHERE is_shared")
+    fun getSharedExpenses(): List<ExpenseItem>
+
     @Insert
     fun insert(expenseItems: ExpenseItem): Long
 

@@ -110,7 +110,8 @@ class NewExpenseItemDialogFragment(private val user: String) : DialogFragment() 
             isExpense = binding.tbExpenseToggle.isChecked,
             username = user,
             year = Calendar.getInstance().get(Calendar.YEAR),
-            month = Calendar.getInstance().get(Calendar.MONTH)
+            month = Calendar.getInstance().get(Calendar.MONTH),
+            isShared = binding.cbIsShared.isChecked
         )
     }
 

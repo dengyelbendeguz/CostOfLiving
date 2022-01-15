@@ -8,6 +8,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import hu.bme.aut.android.expenselist.databinding.ActivityGraphBinding
+import kotlin.concurrent.thread
 
 class GraphActivity : AppCompatActivity(){
     private lateinit var binding: ActivityGraphBinding
@@ -23,10 +24,10 @@ class GraphActivity : AppCompatActivity(){
         textToShow = intent.getStringExtra("text").toString()
         totalCost = intent.getFloatExtra("totalCost", 0.0f)
         totalExpenses = intent.getFloatExtra("totalExpenses", 0.0f)
-        totalIncomes = intent.getFloatExtra("totalIncomes", 0.0f)
+        totalIncomes = -intent.getFloatExtra("totalIncomes", 0.0f)
         binding.tvChartName.text = textToShow
         binding.tvTotalExpenses.text = "Expenses: ${totalExpenses} Ft"
-        binding.tvTotalIncomes.text = "Incomes: ${totalIncomes} Ft"
+        binding.tvTotalIncomes.text = "Incomes: ${-totalIncomes} Ft"
         loadExpenses()
     }
 
@@ -34,14 +35,16 @@ class GraphActivity : AppCompatActivity(){
         val graphSP = this.getSharedPreferences("GRAPH", Context.MODE_PRIVATE)
         val entries = mutableListOf<PieEntry>()
         for (item in graphSP.all){
-            entries.add(PieEntry(item.value as Float, item.key))
+            if (item.value as Float > 0.0f){
+                entries.add(PieEntry(item.value as Float, item.key))
+            }
         }
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = ColorTemplate.JOYFUL_COLORS.toList()
         dataSet.valueTextSize = 16f
         val data = PieData(dataSet)
         binding.chartExpenses.data = data
-        binding.chartExpenses.centerText = "${totalCost} Ft"
+        binding.chartExpenses.centerText = "Balance: ${totalIncomes-totalExpenses} Ft"
         binding.chartExpenses.invalidate()
     }
 }

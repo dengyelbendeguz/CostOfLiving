@@ -18,6 +18,7 @@ class ExpenseAdapter(private val listener: ExpenseItemClickListener) :
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val expenseItem = items[position]
 
+        holder.binding.cbIsShared.isChecked = expenseItem.isShared
         holder.binding.tvName.text = expenseItem.name
         holder.binding.tvDescription.text = expenseItem.description
         holder.binding.tvCategory.text = expenseItem.category
@@ -26,6 +27,10 @@ class ExpenseAdapter(private val listener: ExpenseItemClickListener) :
         holder.binding.linLayItemExpenseList.setBackgroundColor(color)
         holder.binding.ibRemove.setOnClickListener{
             listener.onItemDeleted(expenseItem)
+        }
+        holder.binding.cbIsShared.setOnClickListener {
+            expenseItem.isShared = holder.binding.cbIsShared.isChecked
+            listener.onItemChanged(expenseItem)
         }
     }
 
