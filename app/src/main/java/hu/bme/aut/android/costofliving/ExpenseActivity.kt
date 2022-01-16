@@ -12,14 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import hu.bme.aut.android.costofliving.adapter.ExpenseAdapter
 import hu.bme.aut.android.costofliving.data.ExpenseItem
 import hu.bme.aut.android.costofliving.data.ExpenseListDatabase
+import hu.bme.aut.android.costofliving.fragments.DatePickerDialogFragment
 import hu.bme.aut.android.costofliving.fragments.NewExpenseItemDialogFragment
 import hu.bme.aut.android.expenselist.databinding.ActivityExpenseBinding
-import java.util.*
 import kotlin.concurrent.thread
 
 
 class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickListener,
-    NewExpenseItemDialogFragment.NewExpenseItemDialogListener {
+    NewExpenseItemDialogFragment.NewExpenseItemDialogListener,
+    DatePickerDialogFragment.DatePickerDialogListener {
 
     private lateinit var binding: ActivityExpenseBinding
     private lateinit var database: ExpenseListDatabase
@@ -96,6 +97,13 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         }
     }
 
+    override fun onDatePicked(queryParams: MutableList<String>) {
+        if (queryParams[queryParams.size-1] == "true")
+            loadYearlyItems(queryParams[0].toInt())
+        else
+            loadMonthlyItems(queryParams[0].toInt(), queryParams[1].toInt())
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(hu.bme.aut.android.expenselist.R.menu.expense_menu_toolbar, menu)
         return true
@@ -113,12 +121,11 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         sharedAppear = false
         return when (item.itemId) {
-            hu.bme.aut.android.expenselist.R.id.action_monthly_graph -> {
-                loadMonthlyItems()
-                true
-            }
-            hu.bme.aut.android.expenselist.R.id.action_yearly_graph -> {
-                loadYearlyItems()
+            hu.bme.aut.android.expenselist.R.id.action_statistics -> {
+                DatePickerDialogFragment().show(
+                    supportFragmentManager,
+                    DatePickerDialogFragment.TAG
+                )
                 true
             }
             hu.bme.aut.android.expenselist.R.id.action_get_shared -> {
@@ -145,7 +152,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         }
     }
 
-    private fun initializeGraph(dateType: String){
+    private fun initializeGraph(dateType: String) {
         createGraphSP()
         val profileIntent = Intent(this, GraphActivity::class.java)
         profileIntent.putExtra("text", dateType)
@@ -163,11 +170,11 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         adapter.update(expenseItems)
     }
 
-    private fun loadYearlyItems() {
+    private fun loadYearlyItems(year: Int) {
         thread {
             expenseItems = database.expenseItemDao().getYearlyExpenses(
                 user,
-                Calendar.getInstance().get(Calendar.YEAR)
+                year
             )
             /*runOnUiThread {
                 adapter.update(expenseItems)
@@ -176,12 +183,12 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         }
     }
 
-    private fun loadMonthlyItems() {
+    private fun loadMonthlyItems(year: Int, month: Int) {
         thread {
             expenseItems = database.expenseItemDao().getMonthlyExpenses(
                 user,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH)
+                year,
+                month
             )
             /*runOnUiThread {
                 adapter.update(expenseItems)

@@ -44,6 +44,12 @@
     <string name="auto_backup">Auto backup</string>
     <string name="csv_file_generated_text">CSV file generated successfully!</string>
     <string name="csv_file_not_generated_text">Faild to generate CSV file!</string>
+    <string name="ok">OK</string>
+    <string name="year">Year</string>
+    <string name="year_and_month">Year and Month</string>
+    <string name="datePickerHeader">Choose a date to query your expenses!</string>
+    <string name="date_picker">Date Picker</string>
+    <string name="statistics">Statistics</string>
 
     <string-array name="category_items">
         <item>Food</item>

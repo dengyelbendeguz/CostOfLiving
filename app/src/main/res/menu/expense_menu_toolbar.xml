@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="example.javatpoint.com.kotlinoptionsmenu.ExpenseActivity">
     <item
-        android:id="@+id/action_monthly_graph"
-        android:title="@string/monthly_graph"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/action_yearly_graph"
-        android:title="@string/yearly_graph"
+        android:id="@+id/action_statistics"
+        android:title="@string/statistics"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_get_shared"
