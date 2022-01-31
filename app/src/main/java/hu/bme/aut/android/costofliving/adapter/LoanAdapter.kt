@@ -36,13 +36,14 @@ class LoanAdapter(private val listener: LoanItemClickListener) :
     }
 
     fun addItem(item: LoanItem) {
-        items.add(item)
-        notifyItemInserted(items.size - 1)
+        //see old version as in ExpenseAdapter
+        items.add(0, item)
+        notifyItemInserted(0)
     }
 
     fun update(loanItems: List<LoanItem>) {
         items.clear()
-        items.addAll(loanItems)
+        items.addAll(loanItems.asReversed())
         notifyDataSetChanged()
     }
 
