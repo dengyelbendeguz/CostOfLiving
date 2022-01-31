@@ -21,4 +21,7 @@ interface LoanItemDao {
 
     @Delete
     fun deleteItem(loanItems: LoanItem)
+
+    @Query("DELETE FROM loanitem")
+    fun clearTable()
 }

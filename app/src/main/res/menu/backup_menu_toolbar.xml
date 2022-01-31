@@ -7,12 +7,12 @@
         android:id="@+id/export_dbs"
         android:title="@string/export_dbs"
         app:showAsAction="never"/>
-    <item
-        android:id="@+id/import_dbs"
-        android:title="@string/import_dbs"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/auto_backup"
-        android:title="@string/auto_backup"
-        app:showAsAction="never"/>
+<!--    <item-->
+<!--        android:id="@+id/backup_dbs"-->
+<!--        android:title="@string/backup_dbs"-->
+<!--        app:showAsAction="never"/>-->
+<!--    <item-->
+<!--        android:id="@+id/restore_dbs"-->
+<!--        android:title="@string/restore_dbs"-->
+<!--        app:showAsAction="never"/>-->
 </menu>

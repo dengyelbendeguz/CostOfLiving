@@ -24,4 +24,7 @@ interface ExpenseItemDao {
 
     @Delete
     fun deleteItem(expenseItem: ExpenseItem)
+
+    @Query("DELETE FROM expenseitem")
+    fun clearTable()
 }

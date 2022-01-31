@@ -50,4 +50,5 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation("com.ToxicBakery.library.bcrypt:bcrypt:+")
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
-    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.2.0")}
+    implementation 'de.raphaelebner:roomdatabasebackup:1.0.0-beta10'
+}

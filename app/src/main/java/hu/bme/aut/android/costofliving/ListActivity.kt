@@ -2,24 +2,39 @@ package hu.bme.aut.android.costofliving
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import hu.bme.aut.android.costofliving.file.FileUtil
+import de.raphaelebner.roomdatabasebackup.core.RoomBackup
+import hu.bme.aut.android.costofliving.data.ExpenseListDatabase
+import hu.bme.aut.android.costofliving.data.LoanListDatabase
 import hu.bme.aut.android.expenselist.R
 import hu.bme.aut.android.expenselist.databinding.ActivityListBinding
+import hu.bme.aut.android.costofliving.file.FileHandler
 
-class ListActivity : AppCompatActivity() {
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
+import kotlin.concurrent.thread
+
+
+class ListActivity() : AppCompatActivity() {
     private lateinit var binding: ActivityListBinding
-    private lateinit var fileUtil: FileUtil
+    lateinit var backup: RoomBackup
+    private lateinit var user: String
+    private lateinit var fileHandler: FileHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        fileUtil = FileUtil()
+        user = intent.getStringExtra("username") ?: ""
+        backup = RoomBackup(this)
+        fileHandler = FileHandler(applicationContext, user)
 
         //DO NOT DELETE THE COMMENT  BELOW! (FOR TEST USE)
         //val username = "test_user"
@@ -46,34 +61,25 @@ class ListActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.export_dbs -> {
-                //exportDatabaseToCSVFile("expenses.csv")
-                //exportDatabaseToCSVFile("loans.csv")
+                fileHandler.exportToCSV()
+                runOnUiThread {
+                    Toast.makeText(this, R.string.export_succesfull, Toast.LENGTH_LONG).show()
+                }
                 true
             }
-            R.id.import_dbs -> {
+            /*R.id.backup_dbs -> {
                 true
             }
-            R.id.auto_backup -> {
+            R.id.restore_dbs -> {
                 true
-            }
+            }*/
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    /*private fun exportDatabaseToCSVFile(fileName: String) {
-        val csvFile = fileUtil.generateFile(this, fileName)
-        if (csvFile != null) {
-            if (MOVIES_SHOWN) {
-                (shownFragment as MoviesListFragment).exportMoviesWithDirectorsToCSVFile(csvFile)
-            } else {
-                (shownFragment as DirectorsListFragment).exportDirectorsToCSVFile(csvFile)
-            }
 
-            Toast.makeText(this, getString(R.string.csv_file_generated_text), Toast.LENGTH_LONG).show()
-            val intent = fileUtil.goToFileIntent(this, csvFile)
-            startActivity(intent)
-        } else {
-            Toast.makeText(this, getString(R.string.csv_file_not_generated_text), Toast.LENGTH_LONG).show()
-        }
-    }*/
+
+    companion object {
+        const val TAG = "ListActivity"
+    }
 }

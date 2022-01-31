@@ -50,6 +50,13 @@
     <string name="datePickerHeader">Choose a date to query your expenses!</string>
     <string name="date_picker">Date Picker</string>
     <string name="statistics">Statistics</string>
+    <string name="backup_dbs">Backup databases</string>
+    <string name="restore_dbs">Restore databases</string>
+    <string name="backup_message">Successful backup!</string>
+    <string name="restore_message">Successful restore!</string>
+    <string name="export_succesfull">Databases successfuly exported to the applications data folder.</string>
+    <string name="choose_file">Choose a file to restore database!</string>
+    <string name="file_picked">File picked</string>
 
     <string-array name="category_items">
         <item>Food</item>

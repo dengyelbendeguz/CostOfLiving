@@ -61,6 +61,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
             runOnUiThread {
                 adapter.update(expenseItems)
             }
+            binding.tvAppBarTitle.text = ""
         }
     }
 
@@ -70,6 +71,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
             runOnUiThread {
                 adapter.update(expenseItems)
             }
+            sumSharedExpenses()
         }
     }
 
@@ -150,6 +152,14 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun sumSharedExpenses(){
+        var sum = 0
+        for (item in expenseItems){
+            sum += item.cost
+        }
+        binding.tvAppBarTitle.text = "Sum of shared expenses: ${sum}"
     }
 
     private fun initializeGraph(dateType: String) {
