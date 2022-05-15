@@ -27,6 +27,10 @@ class ListActivity: AppCompatActivity() {
         //val username = "test_user"
         val username = intent.getStringExtra("username") ?: ""
 
+        //DAILY BACKUP
+        fileHandler.prepareIO("BACKUP", "EXPENSES", user)
+        fileHandler.prepareIO("BACKUP", "LOANS", user)
+
         binding.btnExpense.setOnClickListener {
             val profileIntent = Intent(this, ExpenseActivity::class.java)
             profileIntent.putExtra("username", username)
@@ -48,28 +52,28 @@ class ListActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.export_expenses -> {
-                fileHandler.exportExpensesDBToCSV()
+                fileHandler.prepareIO("EXPORT", "EXPENSES", user)
                 runOnUiThread {
                     Toast.makeText(this, R.string.expenses_exported, Toast.LENGTH_LONG).show()
                 }
                 true
             }
             R.id.export_loans -> {
-                fileHandler.exportLoansDBToCSV()
+                fileHandler.prepareIO("EXPORT", "LOANS", user)
                 runOnUiThread {
                     Toast.makeText(this, R.string.loans_exported, Toast.LENGTH_LONG).show()
                 }
                 true
             }
             R.id.import_expenses -> {
-                fileHandler.importExpensesDBFromCSV()
+                fileHandler.prepareIO("IMPORT", "EXPENSES", user)
                 runOnUiThread {
                     Toast.makeText(this, R.string.expenses_imported, Toast.LENGTH_LONG).show()
                 }
                 true
             }
             R.id.import_loans -> {
-                fileHandler.importLoansDBFromCSV()
+                fileHandler.prepareIO("IMPORT", "LOANS", user)
                 runOnUiThread {
                     Toast.makeText(this, R.string.loans_imported, Toast.LENGTH_LONG).show()
                 }

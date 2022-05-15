@@ -15,6 +15,15 @@ class FileHandler(context: Context, username: String) {
     private val user: String = username
     private val expenseDBFieldNames = "id,name,description,category,cost,is_expense,username,year,month,is_shared"
     private val loansDBFieldNames = "id,loaner_name,amount,description,username,is_loaner"
+    private val BACKUP = "BACKUP"
+    private val IMPORT = "IMPORT"
+    private val EXPORT = "EXPORT"
+    private val EXPENSES = "EXPENSES"
+    private val LOANS = "LOANS"
+    private val EXPORTED_DATABASES = "exported_databases"
+    private val EXPENSES_BACKUPS  = "expenses_backups"
+    private val LOANS_BACKUPS = "loans_backups"
+    private val COMMA_HASH = "d11c0182" // "d11c0182" is the CRC32 hash of "comma"
 
     //for testing export/import
     /*fun addTestItem(){
@@ -43,39 +52,77 @@ class FileHandler(context: Context, username: String) {
         }
     }*/
 
+    fun prepareIO(operation: String, dbName: String, user: String){
+        //CREATING FILENAME
+        val fileName: String
+        if (operation == BACKUP){
+            val calendar = Calendar.getInstance()
+            val date = "${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH)}-" +
+                    "${calendar.get(Calendar.DAY_OF_MONTH)}"
+            fileName = dbName+"_"+user+"_"+date+".csv"
+
+        }else
+            fileName = dbName+"_"+user+".csv"
+
+        //CHOOSING DIRECTORY
+        val directory: String
+        if (operation != BACKUP)
+            directory = EXPORTED_DATABASES
+        else if (dbName == EXPENSES)
+            directory = EXPENSES_BACKUPS
+        else if (dbName == LOANS)
+            directory = LOANS_BACKUPS
+        else
+            return
+
+        //CHECKING STUFF
+        val state = Environment.getExternalStorageState()
+        if (!state.equals(Environment.MEDIA_MOUNTED)) {
+            return
+        }
+        val root = applicationContext.getExternalFilesDir(null)
+
+        //CHECK IF DIRECTORY EXISTS
+        val myDir = File("$root/$directory")
+        if (operation != IMPORT)
+            if (!myDir.exists())
+                myDir.mkdirs()
+
+        //FINAL FILE
+        val file = File(myDir, fileName)
+
+        if (operation == EXPORT)
+            if (dbName == EXPENSES)
+                exportExpensesDBToCSV(file)
+            else
+                exportLoansDBToCSV(file)
+        else if (operation == IMPORT)
+            if (dbName == EXPENSES)
+                importExpensesDBFromCSV(file)
+            else
+                importLoansDBFromCSV(file)
+        else if (operation == BACKUP)
+                backupDBs(file, myDir, directory)
+    }
+
     private fun escapeComma(rawString: String): String{
-        // this is not elegant, but works
-        // "d11c0182" is the CRC32 hash of "comma"
         var raw = rawString
         if (raw.contains(",")) {
-            raw = raw.replace(",", "d11c0182")
+            raw = raw.replace(",", COMMA_HASH)
         }
         return raw
     }
 
     private fun recoverComma(rawString: String): String{
-        // this is not elegant, but works
-        // "d11c0182" is the CRC32 hash of "comma"
         var raw = rawString
-        if (raw.contains("d11c0182")) {
-            raw = raw.replace("d11c0182", ",")
+        if (raw.contains(COMMA_HASH)) {
+            raw = raw.replace(COMMA_HASH, ",")
         }
         return raw
     }
 
-    fun exportExpensesDBToCSV() {
+    private fun exportExpensesDBToCSV(file: File) {
         thread {
-            val state = Environment.getExternalStorageState()
-            if (!state.equals(Environment.MEDIA_MOUNTED)) {
-                return@thread
-            }
-            val root = applicationContext.getExternalFilesDir(null)
-            val myDir = File("$root/exported_databases")
-            if (!myDir.exists()) {
-                myDir.mkdirs()
-            }
-            val filename = "expenses_${user}.csv"
-            val file = File(myDir, filename)
             if (file.exists()) file.delete()
             val expenseDB = ExpenseListDatabase.getDatabase(applicationContext)
             val expenseItems = expenseDB.expenseItemDao().getAll(user)
@@ -102,19 +149,8 @@ class FileHandler(context: Context, username: String) {
         }
     }
 
-    fun exportLoansDBToCSV() {
+    private fun exportLoansDBToCSV(file: File) {
         thread {
-            val state = Environment.getExternalStorageState()
-            if (!state.equals(Environment.MEDIA_MOUNTED)) {
-                return@thread
-            }
-            val root = applicationContext.getExternalFilesDir(null)
-            val myDir = File("$root/exported_databases")
-            if (!myDir.exists()) {
-                myDir.mkdirs()
-            }
-            val filename = "loans_${user}.csv"
-            val file = File(myDir, filename)
             if (file.exists()) file.delete()
             val loanDB = LoanListDatabase.getDatabase(applicationContext)
             val loanItems = loanDB.loanItemDao().getAll(user)
@@ -140,16 +176,8 @@ class FileHandler(context: Context, username: String) {
         }
     }
 
-    fun importExpensesDBFromCSV() {
+    private fun importExpensesDBFromCSV(file: File) {
         thread {
-            val state = Environment.getExternalStorageState()
-            if (!state.equals(Environment.MEDIA_MOUNTED)) {
-                return@thread
-            }
-            val root = applicationContext.getExternalFilesDir(null)
-            val myDir = File("$root/exported_databases")
-            val filename = "expenses_${user}.csv"
-            val file = File(myDir, filename)
             if (!file.exists()) return@thread
             val expenseDB = ExpenseListDatabase.getDatabase(applicationContext)
             expenseDB.expenseItemDao().clearTable(user)
@@ -179,16 +207,8 @@ class FileHandler(context: Context, username: String) {
         }
     }
 
-    fun importLoansDBFromCSV() {
+    private fun importLoansDBFromCSV(file: File) {
         thread {
-            val state = Environment.getExternalStorageState()
-            if (!state.equals(Environment.MEDIA_MOUNTED)) {
-                return@thread
-            }
-            val root = applicationContext.getExternalFilesDir(null)
-            val myDir = File("$root/exported_databases")
-            val filename = "loans_${user}.csv"
-            val file = File(myDir, filename)
             if (!file.exists()) return@thread
             val loanDB = LoanListDatabase.getDatabase(applicationContext)
             loanDB.loanItemDao().clearTable(user)
@@ -214,61 +234,28 @@ class FileHandler(context: Context, username: String) {
         }
     }
 
-    /*fun backupDB() {
-        thread {
-            val myDir = File(applicationContext.filesDir, "backup")
-            if (!myDir.exists()) {
-                myDir.mkdirs()
-            }
+    private fun backupDBs(file: File, directory: File, dirName: String){
+        //IF DB ALREADY BACKED UP TODAY, DO NOTHING
+        if (file.exists()) return
 
-            val calendar = Calendar.getInstance()
-            val dateFormat = "${calendar.get(Calendar.YEAR)}-${calendar.get(Calendar.MONTH)}-" +
-                    "${calendar.get(Calendar.DAY_OF_MONTH)}_${calendar.get(Calendar.HOUR_OF_DAY)}-" +
-                    "${calendar.get(Calendar.MINUTE)}"
-
-            //export EXPENSES database
-            var filename = "expenses_${user}_${dateFormat}.csv"
-            var file = File(myDir, filename)
-            if (file.exists()) file.delete()
-            val expenseDB = ExpenseListDatabase.getDatabase(applicationContext)
-            val expenseItems = expenseDB.expenseItemDao().getAll(user)
-            try {
-                val out = FileOutputStream(file)
-                file.printWriter().use { out ->
-                    expenseItems.forEach {
-                        out.println(
-                            "${it.id},${it.name},${it.description},${it.category},${it.cost}," +
-                                    "${it.isExpense},${it.username},${it.year},${it.month},${it.isShared}"
-                        )
-                    }
+        //CHECK IF THERE ARE NO MORE THAN 10 BACKUPS (AND DELETES OLDEST ONE IF THERE ARE)
+        val files: Array<File>? = directory.listFiles()
+        var oldestDate = Long.MAX_VALUE
+        var oldestFile: File? = null
+        if (files != null && files.size >= 10) {
+            files.forEach { f ->
+                if (f.lastModified() < oldestDate) {
+                    oldestDate = f.lastModified()
+                    oldestFile = f
                 }
-                out.flush()
-                out.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
-
-            //export LOANS database
-            filename = "loans_${user}_${dateFormat}.csv"
-            file = File(myDir, filename)
-            if (file.exists()) file.delete()
-            val loanDB = LoanListDatabase.getDatabase(applicationContext)
-            val loanItems = loanDB.loanItemDao().getAll(user)
-            try {
-                val out = FileOutputStream(file)
-                file.printWriter().use { out ->
-                    loanItems.forEach {
-                        out.println(
-                            "${it.id},${it.loanerName},${it.amount},${it.description}," +
-                                    "${it.username},${it.isLoaner}"
-                        )
-                    }
-                }
-                out.flush()
-                out.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            oldestFile?.delete()
         }
-    }*/
+
+        //FINALLY, WRITES THE FRESH BACKUP
+        if (dirName == EXPENSES_BACKUPS)
+            exportExpensesDBToCSV(file)
+        else
+            exportLoansDBToCSV(file)
+    }
 }
