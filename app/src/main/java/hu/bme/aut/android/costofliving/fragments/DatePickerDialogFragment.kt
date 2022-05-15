@@ -13,7 +13,7 @@ import hu.bme.aut.android.expenselist.databinding.DialogDatePickerBinding
 import java.util.*
 
 
-class DatePickerDialogFragment() : DialogFragment() {
+class DatePickerDialogFragment: DialogFragment() {
     interface DatePickerDialogListener {
         fun onDatePicked(queryParams: MutableList<String>)
     }
@@ -36,7 +36,7 @@ class DatePickerDialogFragment() : DialogFragment() {
             Calendar.getInstance().get(Calendar.YEAR),
             Calendar.getInstance().get(Calendar.MONTH),
             Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        ) { view, year, monthOfYear, dayOfMonth -> }
+        ) { _, _, _, _ -> }
         val daySpinnerId: Int = Resources.getSystem().getIdentifier("day", "id", "android")
         if (daySpinnerId != 0) {
             val daySpinner: View = datePicker.findViewById(daySpinnerId)
@@ -47,7 +47,7 @@ class DatePickerDialogFragment() : DialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setTitle(hu.bme.aut.android.expenselist.R.string.date_picker)
             .setView(binding.root)
-            .setPositiveButton(hu.bme.aut.android.expenselist.R.string.button_ok) { dialogInterface, i ->
+            .setPositiveButton(hu.bme.aut.android.expenselist.R.string.button_ok) { _, _ ->
                 listener.onDatePicked(getDateFrom(datePicker) as MutableList<String>)
             }
             .setNegativeButton(hu.bme.aut.android.expenselist.R.string.button_cancel, null)

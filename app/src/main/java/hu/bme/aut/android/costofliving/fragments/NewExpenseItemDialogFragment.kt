@@ -75,7 +75,7 @@ class NewExpenseItemDialogFragment(private val user: String) : DialogFragment() 
         return AlertDialog.Builder(requireContext())
             .setTitle(hu.bme.aut.android.expenselist.R.string.new_expense_item)
             .setView(binding.root)
-            .setPositiveButton(hu.bme.aut.android.expenselist.R.string.button_ok) { dialogInterface, i ->
+            .setPositiveButton(hu.bme.aut.android.expenselist.R.string.button_ok) { _, _ ->
                 if (isValid()) {
                     listener.onExpenseItemCreated(getExpenseItem())
                 }

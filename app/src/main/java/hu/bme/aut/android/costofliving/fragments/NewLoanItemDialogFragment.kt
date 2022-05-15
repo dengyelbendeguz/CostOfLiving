@@ -29,7 +29,7 @@ class NewLoanItemDialogFragment(private val user: String) : DialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setTitle(hu.bme.aut.android.expenselist.R.string.new_loan_item)
             .setView(binding.root)
-            .setPositiveButton(hu.bme.aut.android.expenselist.R.string.button_ok) { dialogInterface, i ->
+            .setPositiveButton(hu.bme.aut.android.expenselist.R.string.button_ok) { _, _ ->
                 if (isValid()) {
                     listener.onLoanItemCreated(getLoanItem())
                 }

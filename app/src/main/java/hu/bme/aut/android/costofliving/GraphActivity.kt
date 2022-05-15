@@ -8,7 +8,6 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
 import hu.bme.aut.android.expenselist.databinding.ActivityGraphBinding
-import kotlin.concurrent.thread
 
 class GraphActivity : AppCompatActivity(){
     private lateinit var binding: ActivityGraphBinding
@@ -26,7 +25,7 @@ class GraphActivity : AppCompatActivity(){
         totalExpenses = intent.getFloatExtra("totalExpenses", 0.0f)
         totalIncomes = -intent.getFloatExtra("totalIncomes", 0.0f)
         binding.tvChartName.text = textToShow
-        binding.tvTotalExpenses.text = "Expenses: ${totalExpenses} Ft"
+        binding.tvTotalExpenses.text = "Expenses: $totalExpenses Ft"
         binding.tvTotalIncomes.text = "Incomes: ${-totalIncomes} Ft"
         loadExpenses()
     }

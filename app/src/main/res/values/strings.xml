@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">Cost Of Living</string>
-    <string name="bought">Bought</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="category">Category</string>
     <string name="cost">Cost</string>
-    <string name="already_purchased">Already purchased</string>
     <string name="new_expense_item">New Expense Item</string>
     <string name="new_loan_item">New Loan Item</string>
     <string name="button_ok">OK</string>
@@ -29,8 +27,6 @@
     <string name="amount">Amount</string>
     <string name="owes_me">owes me</string>
     <string name="i_owe">i owe</string>
-    <string name="monthly_graph">Monthly graph</string>
-    <string name="yearly_graph">Yearly graph</string>
     <string name="expenses">Expenses</string>
     <string name="log_out">Log out</string>
     <string name="people_i_owe">People I owe</string>
@@ -39,24 +35,19 @@
     <string name="shared_expense">Shared expense:</string>
     <string name="shared_expenses">Shared expenses</string>
     <string name="uncheck_all">Uncheck all shared expenses</string>
-    <string name="export_dbs">Export databases</string>
-    <string name="import_dbs">Import databases</string>
-    <string name="auto_backup">Auto backup</string>
-    <string name="csv_file_generated_text">CSV file generated successfully!</string>
-    <string name="csv_file_not_generated_text">Faild to generate CSV file!</string>
-    <string name="ok">OK</string>
     <string name="year">Year</string>
     <string name="year_and_month">Year and Month</string>
     <string name="datePickerHeader">Choose a date to query your expenses!</string>
     <string name="date_picker">Date Picker</string>
     <string name="statistics">Statistics</string>
-    <string name="backup_dbs">Backup databases</string>
-    <string name="restore_dbs">Restore databases</string>
-    <string name="backup_message">Successful backup!</string>
-    <string name="restore_message">Successful restore!</string>
-    <string name="export_succesfull">Databases successfuly exported to the applications data folder.</string>
-    <string name="choose_file">Choose a file to restore database!</string>
-    <string name="file_picked">File picked</string>
+    <string name="export_expenses">Export expenses database</string>
+    <string name="import_expenses">Import expenses database</string>
+    <string name="export_loans">Export loans database</string>
+    <string name="import_loans">Import loans database</string>
+    <string name="expenses_exported">Expenses exported successfully to \"Internal storage/Android/data/hu.bme.aut.../files/exported_databases\"</string>
+    <string name="loans_exported">Loans exported successfully to \"Internal storage/Android/data/hu.bme.aut.../files/exported_databases\"</string>
+    <string name="expenses_imported">Expenses imported successfully</string>
+    <string name="loans_imported">Loans imported successfully</string>
 
     <string-array name="category_items">
         <item>Food</item>

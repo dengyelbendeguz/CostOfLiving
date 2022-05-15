@@ -39,6 +39,7 @@ class LoanAdapter(private val listener: LoanItemClickListener) :
         //see old version as in ExpenseAdapter
         items.add(0, item)
         notifyItemInserted(0)
+        notifyDataSetChanged()
     }
 
     fun update(loanItems: List<LoanItem>) {

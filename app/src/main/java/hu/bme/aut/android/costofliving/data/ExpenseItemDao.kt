@@ -25,6 +25,6 @@ interface ExpenseItemDao {
     @Delete
     fun deleteItem(expenseItem: ExpenseItem)
 
-    @Query("DELETE FROM expenseitem")
-    fun clearTable()
+    @Query("DELETE FROM expenseitem WHERE username=:userName")
+    fun clearTable(userName: String)
 }

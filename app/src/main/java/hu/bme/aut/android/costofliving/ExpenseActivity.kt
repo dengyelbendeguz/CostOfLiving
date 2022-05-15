@@ -159,7 +159,7 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         for (item in expenseItems){
             sum += item.cost
         }
-        binding.tvAppBarTitle.text = "Sum of shared expenses: ${sum}"
+        binding.tvAppBarTitle.text = "Sum of shared expenses: $sum"
     }
 
     private fun initializeGraph(dateType: String) {

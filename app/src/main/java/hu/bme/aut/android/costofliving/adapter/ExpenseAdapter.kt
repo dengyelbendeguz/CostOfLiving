@@ -46,6 +46,7 @@ class ExpenseAdapter(private val listener: ExpenseItemClickListener) :
         items.add(0, item)
         //notifyItemInserted(items.size - 1)
         notifyItemInserted(0)
+        notifyDataSetChanged()
     }
 
     fun update(expenseItems: List<ExpenseItem>) {

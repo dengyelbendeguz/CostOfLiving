@@ -2,28 +2,16 @@ package hu.bme.aut.android.costofliving
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import de.raphaelebner.roomdatabasebackup.core.RoomBackup
-import hu.bme.aut.android.costofliving.data.ExpenseListDatabase
-import hu.bme.aut.android.costofliving.data.LoanListDatabase
+import hu.bme.aut.android.costofliving.file.FileHandler
 import hu.bme.aut.android.expenselist.R
 import hu.bme.aut.android.expenselist.databinding.ActivityListBinding
-import hu.bme.aut.android.costofliving.file.FileHandler
 
-import java.io.File
-import java.io.FileOutputStream
-import java.util.*
-import kotlin.concurrent.thread
-
-
-class ListActivity() : AppCompatActivity() {
+class ListActivity: AppCompatActivity() {
     private lateinit var binding: ActivityListBinding
-    lateinit var backup: RoomBackup
     private lateinit var user: String
     private lateinit var fileHandler: FileHandler
 
@@ -33,7 +21,6 @@ class ListActivity() : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         user = intent.getStringExtra("username") ?: ""
-        backup = RoomBackup(this)
         fileHandler = FileHandler(applicationContext, user)
 
         //DO NOT DELETE THE COMMENT  BELOW! (FOR TEST USE)
@@ -60,26 +47,44 @@ class ListActivity() : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.export_dbs -> {
-                fileHandler.exportToCSV()
+            R.id.export_expenses -> {
+                fileHandler.exportExpensesDBToCSV()
                 runOnUiThread {
-                    Toast.makeText(this, R.string.export_succesfull, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.expenses_exported, Toast.LENGTH_LONG).show()
                 }
                 true
             }
-            /*R.id.backup_dbs -> {
+            R.id.export_loans -> {
+                fileHandler.exportLoansDBToCSV()
+                runOnUiThread {
+                    Toast.makeText(this, R.string.loans_exported, Toast.LENGTH_LONG).show()
+                }
                 true
             }
-            R.id.restore_dbs -> {
+            R.id.import_expenses -> {
+                fileHandler.importExpensesDBFromCSV()
+                runOnUiThread {
+                    Toast.makeText(this, R.string.expenses_imported, Toast.LENGTH_LONG).show()
+                }
+                true
+            }
+            R.id.import_loans -> {
+                fileHandler.importLoansDBFromCSV()
+                runOnUiThread {
+                    Toast.makeText(this, R.string.loans_imported, Toast.LENGTH_LONG).show()
+                }
+                true
+            }
+            /*R.id.add_test_item_to_db -> {
+                fileHandler.addTestItem()
+                runOnUiThread {
+                    Toast.makeText(this, "test data added", Toast.LENGTH_LONG).show()
+                }
                 true
             }*/
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-
-
-    companion object {
-        const val TAG = "ListActivity"
-    }
+    companion object
 }
