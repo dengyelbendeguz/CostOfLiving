@@ -20,12 +20,12 @@ class ListActivity: AppCompatActivity() {
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-        user = intent.getStringExtra("username") ?: ""
-        fileHandler = FileHandler(applicationContext, user)
 
-        //DO NOT DELETE THE COMMENT  BELOW! (FOR TEST USE)
-        //val username = "test_user"
-        val username = intent.getStringExtra("username") ?: ""
+        //DO NOT DELETE THE COMMENT BELOW! (FOR TEST USE)
+        //user = "test_user"
+        //IF EMPTY "bende" IS DEFAULT!!!
+        user = intent.getStringExtra("username") ?: "bende"
+        fileHandler = FileHandler(applicationContext, user)
 
         //DAILY BACKUP
         fileHandler.prepareIO("BACKUP", "EXPENSES", user)
@@ -33,13 +33,13 @@ class ListActivity: AppCompatActivity() {
 
         binding.btnExpense.setOnClickListener {
             val profileIntent = Intent(this, ExpenseActivity::class.java)
-            profileIntent.putExtra("username", username)
+            profileIntent.putExtra("username", user)
             startActivity(profileIntent)
         }
 
         binding.btnLoan.setOnClickListener {
             val profileIntent = Intent(this, LoanActivity::class.java)
-            profileIntent.putExtra("username", username)
+            profileIntent.putExtra("username", user)
             startActivity(profileIntent)
         }
     }
