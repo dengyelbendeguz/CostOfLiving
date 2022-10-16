@@ -1,5 +1,6 @@
 package hu.bme.aut.android.costofliving
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,14 +16,14 @@ import hu.bme.aut.android.expenselist.R
 import hu.bme.aut.android.expenselist.databinding.ActivityLoanBinding
 import kotlin.concurrent.thread
 
-class LoanActivity: AppCompatActivity(), LoanAdapter.LoanItemClickListener,
+class LoanActivity : AppCompatActivity(), LoanAdapter.LoanItemClickListener,
     NewLoanItemDialogFragment.NewLoanItemDialogListener {
 
     private lateinit var binding: ActivityLoanBinding
     private lateinit var database: LoanListDatabase
     private lateinit var adapter: LoanAdapter
     private lateinit var user: String
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoanBinding.inflate(layoutInflater)
@@ -30,7 +31,7 @@ class LoanActivity: AppCompatActivity(), LoanAdapter.LoanItemClickListener,
         setSupportActionBar(binding.toolbar)
         user = intent.getStringExtra("username") ?: ""
         database = LoanListDatabase.getDatabase(applicationContext)
-        binding.fabLoan.setOnClickListener{
+        binding.fabLoan.setOnClickListener {
             NewLoanItemDialogFragment(user).show(
                 supportFragmentManager,
                 NewLoanItemDialogFragment.TAG
@@ -38,6 +39,7 @@ class LoanActivity: AppCompatActivity(), LoanAdapter.LoanItemClickListener,
         }
         initRecyclerView()
     }
+
     private fun initRecyclerView() {
         adapter = LoanAdapter(this)
         binding.rvLoan.layoutManager = LinearLayoutManager(this)
@@ -62,11 +64,24 @@ class LoanActivity: AppCompatActivity(), LoanAdapter.LoanItemClickListener,
     }
 
     override fun onItemDeleted(item: LoanItem) {
-        thread{
-            database.loanItemDao().deleteItem(item)
-            Log.d("LoanActivity", "LoanItem delete was successful")
-            loadItemsInBackground()
-        }
+        AlertDialog.Builder(this@LoanActivity)
+            .setTitle("Confirm!")
+            .setMessage("Do you really want to delete this item?")
+            .setPositiveButton(
+                "Yes"
+            ) { dialog, whichButton ->
+                thread {
+                    database.loanItemDao().deleteItem(item)
+                    Log.d("LoanActivity", "LoanItem delete was successful")
+                    loadItemsInBackground()
+                }
+            }
+            .setNegativeButton("No", null).show()
+        /*thread{
+                database.loanItemDao().deleteItem(item)
+                Log.d("LoanActivity", "LoanItem delete was successful")
+                loadItemsInBackground()
+            }*/
     }
 
     override fun onLoanItemCreated(newItem: LoanItem) {
@@ -107,7 +122,8 @@ class LoanActivity: AppCompatActivity(), LoanAdapter.LoanItemClickListener,
             }
             R.id.action_log_out -> {
                 val profileIntent = Intent(this, LoginActivity::class.java)
-                profileIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                profileIntent.flags =
+                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(profileIntent)
                 true
             }

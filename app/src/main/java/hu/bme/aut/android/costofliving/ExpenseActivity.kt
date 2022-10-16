@@ -1,5 +1,6 @@
 package hu.bme.aut.android.costofliving
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -83,24 +84,40 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
     }
 
     override fun onItemDeleted(item: ExpenseItem) {
-        thread {
+        //runOnUiThread {
+        AlertDialog.Builder(this@ExpenseActivity)
+            .setTitle("Confirm!")
+            .setMessage("Do you really want to delete this item?")
+            .setPositiveButton(
+                "Yes"
+            ) { dialog, whichButton ->
+                thread {
+                    database.expenseItemDao().deleteItem(item)
+                    Log.d("ExpenseActivity", "ExpenseItem delete was successful")
+                    loadItemsInBackground()
+                }
+            }
+            .setNegativeButton("No", null).show()
+        //}
+        /*thread {
             database.expenseItemDao().deleteItem(item)
             Log.d("ExpenseActivity", "ExpenseItem delete was successful")
             loadItemsInBackground()
-        }
+        }*/
     }
 
     override fun onExpenseItemCreated(newItem: ExpenseItem) {
         thread {
             database.expenseItemDao().insert(newItem)
-            runOnUiThread {
+            loadItemsInBackground()
+            /*runOnUiThread {
                 adapter.addItem(newItem)
-            }
+            }*/
         }
     }
 
     override fun onDatePicked(queryParams: MutableList<String>) {
-        if (queryParams[queryParams.size-1] == "true")
+        if (queryParams[queryParams.size - 1] == "true")
             loadYearlyItems(queryParams[0].toInt())
         else
             loadMonthlyItems(queryParams[0].toInt(), queryParams[1].toInt())
@@ -154,9 +171,9 @@ class ExpenseActivity : AppCompatActivity(), ExpenseAdapter.ExpenseItemClickList
         }
     }
 
-    private fun sumSharedExpenses(){
+    private fun sumSharedExpenses() {
         var sum = 0
-        for (item in expenseItems){
+        for (item in expenseItems) {
             sum += item.cost
         }
         binding.tvAppBarTitle.text = "Sum of shared expenses: $sum"
