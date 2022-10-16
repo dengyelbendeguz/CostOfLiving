@@ -87,10 +87,10 @@ class LoanActivity : AppCompatActivity(), LoanAdapter.LoanItemClickListener,
     override fun onLoanItemCreated(newItem: LoanItem) {
         thread {
             database.loanItemDao().insert(newItem)
-
-            runOnUiThread {
+            loadItemsInBackground()
+            /*runOnUiThread {
                 adapter.addItem(newItem)
-            }
+            }*/
         }
     }
 
